@@ -1,85 +1,76 @@
 /* ==========================================================================
    NextBest - Retail Customer Intelligence
 
-   Theme: QUIET. Plum-tinted monochrome chrome, colour only on the data.
+   Theme: WARM. Cream and espresso, copper brand, colour only on the data.
 
-   The interface itself carries no hue: the brand mark, the active tab and the
-   focus ring are all pewter. Colour is spent exclusively on the four decisions,
-   so anything coloured on screen is a value, never decoration. That also means
-   the brand can never be misread as data -- an earlier palette used one colour
-   for both the brand and the persuadable quadrant.
+   Anchored on #FFF8F0 and #2C1A0E. The neutrals carry a warm hue rather than
+   being flat grey, which is what stops an interface reading as defaulted.
 
-   blue = act, amber = leave alone, grey = ignore, red = stop.
+   The brand is copper and appears only as identity -- the mark, the focus ring.
+   It sits well away from every data colour (dE 19.8 light, 39.4 dark), so it
+   can never be misread as a value. An earlier palette used one colour for both
+   the brand and the persuadable quadrant.
 
-   Surfaces separate by hairline and tint rather than shadow. The line reads at
-   1.62:1 against the page and 1.48:1 against a card, which is what makes a card
-   look like a plane; an earlier pass dropped the shadows without raising this
-   and everything collapsed into one flat field at 1.07:1.
+   blue = act, amber = leave alone, warm grey = ignore, red = stop.
 
-   Contrast: all 38 foreground/background pairs clear WCAG AA 4.5:1 in both
+   Contrast: all 40 foreground/background pairs clear WCAG AA 4.5:1 in both
    modes, including every colour on its own tinted ground.
 
+   In light mode the page and the card sit close together by design -- the card
+   is white on cream -- so the hairline does the separating at 1.35:1 against
+   the page and 1.42:1 against the card.
+
    Colour-blind separation between the four states, worst pair:
-   dark  protanopia dE 29.5, deuteranopia dE 43.0
-   light protanopia dE 18.1, deuteranopia dE 12.1
-   Icons carry the meaning too, since
-   with four states where one must be grey and one must be red no hue
-   assignment clears every gate.
+   light  protanopia dE 17.0, deuteranopia dE 12.2
+   dark   protanopia dE 10.6, deuteranopia dE 12.6
+   Icons carry the meaning too, because with four states where one must be grey
+   and one must be red, no hue assignment clears every gate.
    ========================================================================= */
 
 :root{
-  /* ---- surfaces -------------------------------------------------------- */
-  --bg:#EFE8EC; --card:#FDFCFD; --card2:#E6DAE1; --card3:#DDCED7;
-  --line:#DDD0D9; --line2:#BFAEBA;
-  --ink:#1A141A; --ink2:#544B53; --ink3:#6E636C;
+  /* ---- surfaces: warm cream, white cards ------------------------------- */
+  --bg:#FFF8F0; --card:#FFFFFF; --card2:#FAF2E8; --card3:#F4E8D9;
+  --line:#E4D6C8; --line2:#C8B29D;
+  --ink:#241B14; --ink2:#615448; --ink3:#7B6D60;
 
-  /* ---- brand: identity, navigation, focus. Deliberately colourless. ----- */
-  --accent:#4A414C; --accent-soft:#E6DAE1; --on-accent:#FFFFFF;
+  /* ---- brand: identity, navigation, focus. Never a data colour. -------- */
+  --accent:#AD5E29; --accent-soft:#FAECE1; --on-accent:#FFFFFF;
 
-  /* ---- the four decisions: the only hue in the product -----------------
-     Blue/red rather than green/red. The suppression list is the decision
-     with legal weight, so it is the one that must never be misread.
-     Green also implied "good customer" -- but a sleeping dog is often your
-     best customer. These are actions, not judgements.                      */
-  --act:#0965D6;     --act-soft:#E6F0FC;     /* contact them       5.31:1 */
-  --caution:#755602; --caution-soft:#FCF5E6; /* no offer needed    6.64:1 */
-  --dead:#6E636C;    --dead-soft:#EBE3E8;    /* not worth it       5.56:1 */
-  --harm:#D20D32;    --harm-soft:#FCE6EA;    /* leave them alone   5.31:1 */
+  /* ---- the four decisions: the only hue that carries meaning ----------- */
+  --act:#0967DB;     --act-soft:#E3EEFC;     /* contact them       5.31:1 */
+  --caution:#755602; --caution-soft:#FCF4E3; /* no offer needed    6.64:1 */
+  --dead:#7B6D60;    --dead-soft:#FAF2E8;    /* not worth it       4.68:1 */
+  --harm:#D20D31;    --harm-soft:#FCE3E8;    /* leave them alone   5.31:1 */
   --on-harm:#FFFFFF;
-  /* Brighter still, for graphics and large figures, where the gate is 3:1
-     rather than 4.5:1 -- bars, chart strokes, the big group-card numbers. */
-  --act-v:#0473FB; --caution-v:#B57B00; --dead-v:#6E636C; --harm-v:#F60934;
+  /* brighter still, for graphics and large figures, where the gate is 3:1 */
+  --act-v:#0473FB; --caution-v:#B57B00; --dead-v:#7B6D60; --harm-v:#F60934;
 
-  /* ---- one polarity language: uplift, money, deltas, bars -------------- */
   --pos:var(--act); --neg:var(--harm); --zero:var(--ink3);
 
-  /* ---- legacy aliases so existing rules keep working ------------------- */
   --good:var(--act); --good-soft:var(--act-soft);
   --calm:var(--caution); --calm-soft:var(--caution-soft);
   --mute:var(--dead); --mute-soft:var(--dead-soft);
   --stop:var(--harm); --stop-soft:var(--harm-soft); --on-stop:var(--on-harm);
 
   --r:10px; --r2:6px;
-  /* Only the drawer genuinely floats. Cards separate by hairline and tint. */
-  --shadow:0 1px 2px rgba(26,20,26,.05), 0 1px 3px rgba(26,20,26,.07);
-  --lift:0 18px 48px -24px rgba(26,20,26,.45);
-  /* Paper grain, page only -- never on a card. ~280 bytes, no request. */
-  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
+  --shadow:0 1px 2px rgba(36,27,20,.05), 0 1px 3px rgba(36,27,20,.07);
+  --lift:0 18px 48px -24px rgba(36,27,20,.45);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.03'/%3E%3C/svg%3E");
   color-scheme:light;
 }
 [data-theme="dark"]{
-  --bg:#0A080B; --card:#181419; --card2:#221D23; --card3:#2B252D;
-  --line:#3A323C; --line2:#4E4551;
-  --ink:#F5F0F5; --ink2:#C4B6C3; --ink3:#988B96;
+  --bg:#2C1A0E; --card:#3F2715; --card2:#4F341E; --card3:#5F4029;
+  --line:#724C2F; --line2:#8B6141;
+  --ink:#FBF6F1; --ink2:#DACCBE; --ink3:#B5A28F;
 
-  --accent:#C9BFC7; --accent-soft:#221D23; --on-accent:#141014;
+  --accent:#D37E45; --accent-soft:#4F341E; --on-accent:#2C1A0E;
 
-  --act:#2181F6;     --act-soft:#101C2B;     /* 4.81:1 */
-  --caution:#FBAD04; --caution-soft:#2B2210; /* 9.63:1 */
-  --dead:#A99BA6;    --dead-soft:#241D27;    /* 6.94:1 */
-  --harm:#F23155;    --harm-soft:#2B1015;    /* 4.63:1 */
-  --on-harm:#2A0F16;
-  --act-v:#0473FB; --caution-v:#FFAE01; --dead-v:#A99BA6; --harm-v:#F60935;
+  --act:#4294F7;     --act-soft:#122236;     /* 4.83:1 */
+  --caution:#FBAD04; --caution-soft:#33280F; /* 7.72:1 */
+  --dead:#B5A28F;    --dead-soft:#4F341E;    /* 4.94:1 */
+  --harm:#F5607B;    --harm-soft:#361218;    /* 4.60:1 */
+  --on-harm:#2C1A0E;
+  --act-v:#4294F7; --caution-v:#FFAE01; --dead-v:#B5A28F; --harm-v:#F5607B;
 
   --pos:var(--act); --neg:var(--harm); --zero:var(--ink3);
 
@@ -90,7 +81,7 @@
 
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
   --lift:0 18px 48px -20px rgba(0,0,0,.85);
-  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.05'/%3E%3C/svg%3E");
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.045'/%3E%3C/svg%3E");
   color-scheme:dark;
 }
 
@@ -129,7 +120,7 @@ p{margin:0 0 12px}
 /* ---------------------------------------------------------------- header */
 .top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);
      backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.top-in{max-width:1220px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:20px}
+.top-in{max-width:1760px;margin:0 auto;padding:13px clamp(16px,2.2vw,34px);display:flex;align-items:center;gap:20px}
 .brand{display:flex;align-items:center;gap:11px;flex:none}
 .mark{width:32px;height:32px;border-radius:9px;background:var(--accent);display:grid;place-items:center;
       color:var(--on-accent);flex:none}
@@ -149,7 +140,7 @@ p{margin:0 0 12px}
          font-size:12.5px;color:var(--ink2);flex:none;transition:.15s}
 .iconbtn:hover{border-color:var(--line2);color:var(--ink)}
 
-.wrap{max-width:1220px;margin:0 auto;padding:24px 26px 28px}
+.wrap{max-width:1760px;margin:0 auto;padding:24px clamp(16px,2.2vw,34px) 28px}
 .head{margin-bottom:20px}
 .head h2{font-size:23px;margin-bottom:5px}
 .head p{color:var(--ink2);max-width:none;margin:0;font-size:14.5px}
@@ -519,6 +510,17 @@ svg{display:block;overflow:visible}
 .hero-money .gain2 .v{color:var(--good)}
 .hero-money .gain2 .s{color:var(--good)}
 
+/* The rule sits inside the break-even block as its footer, so the number and
+   what the number means read as one thing. */
+.breakeven+.rulefoot{margin-top:0;border-top-left-radius:0;border-top-right-radius:0;
+                     border-top:none}
+.rulefoot{background:var(--card2);border:1px solid var(--line);border-radius:var(--r);
+          padding:15px 22px;margin-bottom:16px;display:flex;gap:16px;align-items:baseline;
+          flex-wrap:wrap}
+.rulefoot .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+             text-transform:uppercase;color:var(--accent);flex:none;padding-top:3px}
+.rulefoot p{margin:0;font-size:14.5px;color:var(--ink);max-width:none;flex:1;min-width:260px}
+.rulefoot p span{display:block;font-size:13px;color:var(--ink2);margin-top:5px}
 .oneline{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--r);
          padding:17px 21px;margin-bottom:16px;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
 .oneline .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;

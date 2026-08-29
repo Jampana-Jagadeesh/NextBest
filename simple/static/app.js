@@ -596,11 +596,6 @@ TABS.models = function (v) {
   const be = el('div', 'breakeven');
   be.innerHTML = `
     <div>
-      <div class="k">The campaign caused</div>
-      <div class="v up">${pts(E.lift_pp)}</div>
-      <div class="s">points of extra visits</div>
-    </div>
-    <div>
       <div class="k">A visit is worth</div>
       <div class="v">${money(E.margin_per_visit)}</div>
       <div class="s">${money(E.rev_per_visit)} revenue × ${(E.margin_rate * 100).toFixed(0)}% margin</div>
@@ -617,7 +612,7 @@ TABS.models = function (v) {
     </div>`;
   v.appendChild(be);
 
-  v.appendChild(el('div', 'oneline', `
+  v.appendChild(el('div', 'rulefoot', `
     <span class="k">The rule</span>
     <p>Any way of reaching a customer that costs more than
       <b>${money(E.value_per_contact)}</b> loses money if you send it to everyone.
