@@ -701,13 +701,13 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
                  text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
 .ledger{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
         border-radius:var(--r2);overflow:hidden}
-.ledger>div{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;
+.ledger>div{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:12px;
             background:var(--card);padding:13px 18px;align-items:baseline}
 .ledger .lh{background:var(--card2);padding:9px 18px}
 .ledger .lh span{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.11em;
                  text-transform:uppercase;color:var(--ink3);text-align:right}
 .ledger .lh span:first-child{text-align:left}
-.ledger .lr span{text-align:right;font-size:clamp(17px,2vw,22px);font-weight:700;
+.ledger .lr span{text-align:right;font-size:clamp(15px,1.7vw,20px);font-weight:700;
                  letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
 .ledger .lr span.up{color:var(--act)} .ledger .lr span.dn{color:var(--harm)}
 .ledger .lr .w{text-align:left;font-size:14.5px;font-weight:600;color:var(--ink)}
@@ -722,7 +722,7 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .mh{
   position:relative;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:17px 22px;margin-bottom:16px;overflow:hidden;
+  padding:10px 18px;margin-bottom:14px;overflow:hidden;
 }
 /* Brand rule, deliberately not semantic. A green/orange split here put orange
    directly above "real customer data" and crossed over the problem/solution
@@ -731,28 +731,33 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .mh::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--accent)}
 @media(max-width:760px){.mh{grid-template-columns:1fr;gap:14px}}
 
-.mh-left{display:flex;align-items:center;gap:15px;min-width:0}
+.mh-left{display:flex;align-items:baseline;gap:10px;min-width:0;flex-wrap:wrap}
 .mh-dots{display:flex;gap:5px;flex:none;align-items:flex-end}
-.mh-dots i{width:7px;border-radius:4px;background:var(--good);display:block}
-.mh-dots i:nth-child(1){height:20px}
-.mh-dots i:nth-child(2){height:16px}
-.mh-dots i:nth-child(3){height:13px}
-.mh-dots i:nth-child(4){height:10px}
-.mh-dots i:nth-child(5){height:7px;background:var(--stop)}
+.mh-dots{align-self:center}
+.mh-dots i{width:5px;border-radius:3px;background:var(--good);display:block}
+.mh-dots i:nth-child(1){height:14px}
+.mh-dots i:nth-child(2){height:11px}
+.mh-dots i:nth-child(3){height:9px}
+.mh-dots i:nth-child(4){height:7px}
+.mh-dots i:nth-child(5){height:5px;background:var(--stop)}
 
-.mh-k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.16em;
-      text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
-.mh-v{font-size:14.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.25}
+.mh-k{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--ink3);margin:0;flex:none}
+.mh-v{font-size:12.5px;font-weight:600;color:var(--ink2);letter-spacing:0;line-height:1.35}
+.mh-v em{font-style:normal;color:var(--ink3);font-weight:400}
+/* the two halves sit on one line: this is provenance, not a section */
+.mh-left>div:last-child{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;min-width:0}
 .mh-v em{font-style:normal;color:var(--ink3);font-weight:400}
 
-.mh-right{display:flex;align-items:center;gap:12px;flex:none;
+.mh-right{display:flex;align-items:center;gap:9px;flex:none;
           border-left:1px solid var(--line);padding-left:20px}
 @media(max-width:760px){.mh-right{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:14px}}
-.mh-seal{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;
+.mh-seal{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;
          background:var(--act-soft);color:var(--act);font-size:14px;font-weight:700;
          border:1.5px solid var(--act)}
 .mh-right .mh-k{color:var(--ink3)}
-.mh-src{font-size:12.5px;color:var(--ink3);margin-top:2px}
+.mh-src{font-size:11.5px;color:var(--ink3);margin:0}
+.mh-right>div:last-child{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
 .mh-src a{color:var(--ink3);text-decoration:underline;text-underline-offset:2px}
 .mh-src a:hover{color:var(--ink)}
 
@@ -977,7 +982,7 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .grp .ghead .ico{width:17px;height:17px;stroke-width:2.1}
 .verdictbar .big3 .ico{width:.9em;height:.9em;margin-right:6px}
 .dl button .ico{margin-right:7px}
-.mh-seal .ico{width:15px;height:15px;stroke-width:2.4}
+.mh-seal .ico{width:12px;height:12px;stroke-width:2.6}
 
 /* == polarity == */
 /* One language everywhere: blue is more/act, red is less/harm, grey is nothing.

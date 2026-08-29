@@ -502,22 +502,31 @@ TABS.models = function (v) {
   // profit = sales * margin - contacts * cost, so sales can be backed out of the
   // profit the app already reports and the ledger is guaranteed to add up.
   const salesOf = (profit, n, cost) => (profit + n * cost) / E.margin_rate;
-  const row = (what, n, cost, profit) => `
+  // The margin step used to be invisible, so the table looked like it was
+  // subtracting spend from sales and getting the wrong answer. Show it.
+  const row = (what, n, cost, profit) => {
+    const sales = salesOf(profit, n, cost);
+    return `
     <div class="lr">
       <span class="w">${what}<em>${int(n)} at ${money(cost)}</em></span>
       <span>${money0(n * cost)}</span>
-      <span class="up">${money0(salesOf(profit, n, cost))}</span>
+      <span class="up">${money0(sales)}</span>
+      <span>${money0(sales * E.margin_rate)}</span>
       <span class="${dir(profit)}">${profit > 0 ? '+' : ''}${money0(profit)}</span>
     </div>`;
+  };
   const ab = el('div', 'answerbar');
   ab.innerHTML = `
     <div class="ab-k">The answer</div>
     <div class="ledger">
-      <div class="lh"><span></span><span>You spend</span><span>They spend back</span><span>Profit</span></div>
+      <div class="lh"><span></span><span>You spend</span><span>They spend back</span>
+        <span>You keep (${(E.margin_rate * 100).toFixed(0)}%)</span><span>Profit</span></div>
       ${row('Email everyone', d.base.n, cheap.cost, cheap.blanket)}
       ${row('Best list only', dear.n_targeted, dear.cost, dear.targeted)}
     </div>
-    <div class="ab-note">They spend back = sales that would not have happened without the contact.</div>`;
+    <div class="ab-note">They spend back = sales that would not have happened without the
+      contact. You keep ${(E.margin_rate * 100).toFixed(0)}% of that as gross margin, and the send cost comes out of what you keep
+      \u2014 so profit is <b>keep minus spend</b>, not sales minus spend.</div>`;
 
   const intro = el('div');
   intro.style.marginBottom = '16px';
