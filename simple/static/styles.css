@@ -679,7 +679,7 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .ps2 .p2 .h,.ps2 .s2 .h{color:var(--ink3)}
 .ps2 h3{font-size:clamp(17px,2.3vw,21px);line-height:1.25;letter-spacing:-.02em;
         margin-bottom:11px;max-width:24ch}
-.ps2 p{font-size:14.5px;color:var(--ink2);margin:0 0 12px;max-width:56ch}
+.ps2 p{font-size:14.5px;color:var(--ink2);margin:0 0 12px;max-width:none}
 .ps2 .tagline{display:block;max-width:none;font-size:13.5px;padding:13px 16px;border-radius:var(--r2);
               background:var(--card2);color:var(--ink2);margin:0;
               border-left:3px solid var(--act)}
@@ -697,8 +697,13 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 /* ---- the answer bar: the finding, above the fold, priced live ---------- */
 .answerbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
            padding:20px 24px 16px;margin-bottom:16px}
-.answerbar .ab-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
-                 text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.answerbar .ab-k{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;
+                 letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+/* Question and answer are the first thing on the page, so both fit one screen. */
+.answerbar .ab-q{margin-bottom:16px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.answerbar .ab-q p{margin:0;font-size:clamp(18px,2.4vw,25px);line-height:1.25;
+                   letter-spacing:-.02em;font-weight:600;color:var(--ink);max-width:44ch}
+.answerbar .ab-q p b{color:var(--accent);font-weight:700}
 .ledger{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
         border-radius:var(--r2);overflow:hidden}
 .ledger>div{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:12px;
@@ -835,6 +840,11 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .legend span{display:inline-flex;align-items:center;white-space:nowrap}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;flex:none;
           margin-right:7px}
+
+/* A chip names a deliverable; this marks the control that produces it. */
+@keyframes nb-flash{0%,100%{box-shadow:0 0 0 0 transparent}
+                    25%,75%{box-shadow:0 0 0 3px var(--accent)}}
+.flash{animation:nb-flash 1.6s ease-in-out 1;border-radius:var(--r2)}
 
 /* == opening sequence ==
    One pass on first paint. Everything is `both`-filled so an element is never

@@ -517,7 +517,11 @@ TABS.models = function (v) {
   };
   const ab = el('div', 'answerbar');
   ab.innerHTML = `
-    <div class="ab-k">The answer</div>
+    <div class="ab-q">
+      <span class="ab-k">The question</span>
+      <p>Should we email all <b>${int(d.base.n)}</b> customers — and what does it actually earn?</p>
+    </div>
+    <span class="ab-k">The answer</span>
     <div class="ledger">
       <div class="lh"><span></span><span>You spend</span><span>They spend back</span>
         <span>You keep (${(E.margin_rate * 100).toFixed(0)}%)</span><span>Profit</span></div>
@@ -566,19 +570,25 @@ TABS.models = function (v) {
           `<button data-go="${i}"><b>${esc(t)}</b> — ${esc(x)}</button>`).join('')}</div>
       </div>
     </div>`;
+  v.appendChild(ab);
   v.appendChild(intro);
 
-  // "Offer per customer" lives on tab 2; the other three are all decided in the
-  // pricing block further down this tab.
+  // Each chip names a deliverable, so each one lands on the control that
+  // produces it. Three of them used to scroll to the same block, which is why
+  // they felt broken.
+  const CHIP_TARGET = ['nb-send', 'nb-suppress', null, 'nb-price'];
   intro.querySelectorAll('.chips2 button').forEach(b => {
     b.onclick = () => {
-      if (b.dataset.go === '2') { S.tab = 'products'; render(); return; }
-      const t = document.getElementById('nb-decide');
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const id = CHIP_TARGET[+b.dataset.go];
+      if (!id) { S.tab = 'products'; render(); return; }   // offer per customer
+      const t = document.getElementById(id);
+      if (!t) return;
+      t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      t.classList.add('flash');
+      setTimeout(() => t.classList.remove('flash'), 1600);
     };
   });
 
-  v.appendChild(ab);
 
   const hero = el('div', 'hero');
   const top = el('div', 'hero-top', `
@@ -668,6 +678,7 @@ TABS.models = function (v) {
   const costW = mk('Cost to reach one customer', 'cost', 0.02, 1.00, 0.01,
                    v2 => money(v2), ['$0.02', '$1.00']);
   const presets = el('div', 'presets2');
+  presets.id = 'nb-price';
   METHODS.forEach(mth => {
     const b = el('button', '', `${esc(mth.label)} · ${money(mth.cost)}`);
     b.dataset.cost = mth.cost;
@@ -751,8 +762,10 @@ TABS.models = function (v) {
       };
       return b;
     };
-    dl.append(mkBtn('Download target list', 'contact', ''),
-              mkBtn('Download suppression list', 'suppress', 'ghost2'),
+    const bSend = mkBtn('Download target list', 'contact', '');
+    const bSupp = mkBtn('Download suppression list', 'suppress', 'ghost2');
+    bSend.id = 'nb-send'; bSupp.id = 'nb-suppress';
+    dl.append(bSend, bSupp,
               mkBtn('Download everyone', 'all', 'ghost2'),
               el('span', 'hintx', 'CSV, priced at the assumptions above — they are in the filename'));
     outHost.appendChild(dl);
