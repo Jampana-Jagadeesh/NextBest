@@ -243,4 +243,5 @@ def test_the_static_build_uses_relative_asset_paths():
         pytest.skip("docs/ not built here; CI builds it before this runs")
     html = docs.read_text(encoding="utf-8")
     assert '"/static/' not in html, "absolute /static/ path would 404 on a subpath"
-    assert 'href="styles.css"' in html and 'src="app.js"' in html
+    # the build stamps a content hash on the asset URLs, so match the prefix
+    assert 'href="styles.css?v=' in html and 'src="app.js?v=' in html

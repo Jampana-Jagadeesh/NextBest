@@ -68,6 +68,15 @@ def main() -> None:
     html = html.replace(chr(34) + "/static/", chr(34)).replace("=/static/", "=")
     assert html != before, "expected the /static/ asset paths to rewrite"
     assert "/static/" not in html, "an absolute /static/ path survived"
+
+    # Assets are served with max-age=600 too, so a browser can hold a stale
+    # stylesheet after a deploy and render the new HTML against old CSS.
+    # Stamping the content hash into the URL makes every deploy self-healing.
+    import hashlib
+    def _v(name):
+        return hashlib.sha1((OUT / name).read_bytes()).hexdigest()[:8]
+    html = html.replace('href="styles.css"', f'href="styles.css?v={_v("styles.css")}"')
+    html = html.replace('src="app.js"', f'src="app.js?v={_v("app.js")}"')
     (OUT / "index.html").write_text(html, encoding="utf-8")
 
     slim = cust[COLS].copy()
