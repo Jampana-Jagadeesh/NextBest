@@ -101,7 +101,8 @@
   .rv,.rv.in{opacity:1!important;transform:none!important}
   body{background:#fff!important;background-image:none!important;color:#000}
   .top,.tabs,.dl,.iconbtn,.scrim,.drawer{display:none!important}
-  body::after,body::before{display:none!important}
+  body::after,body::before,.frame1::after{display:none!important}
+  .frame1{animation:none!important;clip-path:none!important}
   .card,.mblock,.hero,.rw,.groups{break-inside:avoid;page-break-inside:avoid}
 }
 body{margin:0;background-color:var(--bg);background-image:var(--grain);color:var(--ink);
@@ -121,14 +122,21 @@ p{margin:0 0 12px}
 /* ---------------------------------------------------------------- header */
 .top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);
      backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.top-in{max-width:1760px;margin:0 auto;padding:13px clamp(16px,2.2vw,34px);display:flex;align-items:center;gap:20px}
-.brand{display:flex;align-items:center;gap:11px;flex:none}
-.mark{width:32px;height:32px;border-radius:9px;background:var(--accent);display:grid;place-items:center;
+.top-in{max-width:1760px;margin:0 auto;padding:9px clamp(16px,2.2vw,34px);
+        display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;flex:1 1 auto;min-width:0}
+.brand>div:last-child{min-width:0}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--accent);display:grid;place-items:center;
       color:var(--on-accent);flex:none}
-.mark svg{width:20px;height:20px;display:block}
-.brand b{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:16px;display:block;line-height:1.2}
-.brand span{font-size:11.5px;color:var(--ink3)}
-.tabs{display:flex;gap:3px;margin-left:auto}
+.mark svg{width:17px;height:17px;display:block}
+.brand b{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:15px;display:block;line-height:1.2}
+/* One line, truncated rather than wrapped, so it can never push the nav. */
+.brand span{display:block;font-size:11px;color:var(--ink3);white-space:nowrap;
+            overflow:hidden;text-overflow:ellipsis;line-height:1.45}
+.brand span i{font-style:normal;color:var(--line2);margin:0 7px}
+.brand span a{color:var(--ink3);text-decoration:underline;text-underline-offset:2px}
+.brand span a:hover{color:var(--ink2)}
+.tabs{display:flex;gap:3px;margin-left:auto;flex:none;white-space:nowrap}
 .tab{background:none;border:none;padding:7px 15px;border-radius:var(--r2);color:var(--ink2);
      position:relative;
      font-size:13.5px;font-weight:500;transition:.15s}
@@ -680,19 +688,8 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .ps2 h3{font-size:clamp(17px,2.3vw,21px);line-height:1.25;letter-spacing:-.02em;
         margin-bottom:11px;max-width:24ch}
 .ps2 p{font-size:14.5px;color:var(--ink2);margin:0 0 12px;max-width:none}
-.ps2 .tagline{display:block;max-width:none;font-size:13.5px;padding:13px 16px;border-radius:var(--r2);
-              background:var(--card2);color:var(--ink2);margin:0;
-              border-left:3px solid var(--act)}
-.ps2 .chips2{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
-.ps2 .chips2 button{background:var(--card2);border:1px solid var(--line);border-radius:20px;
-                    cursor:pointer;font:inherit;transition:.15s;text-align:left}
-.ps2 .chips2 button:hover{border-color:var(--accent);color:var(--ink)}
-.ps2 .chips2 span{background:var(--card2);border:1px solid var(--line);border-radius:20px;
-                  padding:5px 11px;font-size:12px;color:var(--ink2)}
-.ps2 .chips2 b{color:var(--ink);font-weight:600}
-/* Both columns end in the same shape, so the eye reads them as a pair. */
-.ps2>div{display:flex;flex-direction:column}
-.ps2 .tagline,.ps2 .chips2{margin-top:auto}
+/* The columns used to be flex so the note and the chips could be pinned to the
+   bottom edge. Both are gone, so the flex column only held empty space open. */
 
 /* ---- the answer bar: the finding, above the fold, priced live ---------- */
 .answerbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -701,8 +698,13 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
                  letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
 /* Question and answer are the first thing on the page, so both fit one screen. */
 .answerbar .ab-q{margin-bottom:16px;padding-bottom:15px;border-bottom:1px solid var(--line)}
-.answerbar .ab-q p{margin:0;font-size:clamp(18px,2.4vw,25px);line-height:1.25;
-                   letter-spacing:-.02em;font-weight:600;color:var(--ink);max-width:44ch}
+/* No text-wrap:balance here -- balance splits a line that would otherwise fit,
+   which is the opposite of what this needs. */
+.answerbar .ab-q p{margin:0;font-size:clamp(16px,1.7vw,21px);line-height:1.3;
+                   letter-spacing:-.02em;font-weight:600;color:var(--ink);
+                   max-width:none;white-space:nowrap;overflow:hidden;
+                   text-overflow:ellipsis}
+@media(max-width:900px){.answerbar .ab-q p{white-space:normal}}
 .answerbar .ab-q p b{color:var(--accent);font-weight:700}
 .ledger{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
         border-radius:var(--r2);overflow:hidden}
@@ -724,47 +726,10 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
                     font-size:12.5px;color:var(--ink3);max-width:105ch}
 
 /* == masthead == */
-.mh{
-  position:relative;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:10px 18px;margin-bottom:14px;overflow:hidden;
-}
-/* Brand rule, deliberately not semantic. A green/orange split here put orange
-   directly above "real customer data" and crossed over the problem/solution
-   cards below, reading as an X. The five bars already carry the 4-vs-1 meaning,
-   and they sit next to the sentence that explains them. */
-.mh::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--accent)}
-@media(max-width:760px){.mh{grid-template-columns:1fr;gap:14px}}
 
-.mh-left{display:flex;align-items:baseline;gap:10px;min-width:0;flex-wrap:wrap}
-.mh-dots{display:flex;gap:5px;flex:none;align-items:flex-end}
-.mh-dots{align-self:center}
-.mh-dots i{width:5px;border-radius:3px;background:var(--good);display:block}
-.mh-dots i:nth-child(1){height:14px}
-.mh-dots i:nth-child(2){height:11px}
-.mh-dots i:nth-child(3){height:9px}
-.mh-dots i:nth-child(4){height:7px}
-.mh-dots i:nth-child(5){height:5px;background:var(--stop)}
 
-.mh-k{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:.14em;
-      text-transform:uppercase;color:var(--ink3);margin:0;flex:none}
-.mh-v{font-size:12.5px;font-weight:600;color:var(--ink2);letter-spacing:0;line-height:1.35}
-.mh-v em{font-style:normal;color:var(--ink3);font-weight:400}
 /* the two halves sit on one line: this is provenance, not a section */
-.mh-left>div:last-child{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;min-width:0}
-.mh-v em{font-style:normal;color:var(--ink3);font-weight:400}
 
-.mh-right{display:flex;align-items:center;gap:9px;flex:none;
-          border-left:1px solid var(--line);padding-left:20px}
-@media(max-width:760px){.mh-right{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:14px}}
-.mh-seal{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;
-         background:var(--act-soft);color:var(--act);font-size:14px;font-weight:700;
-         border:1.5px solid var(--act)}
-.mh-right .mh-k{color:var(--ink3)}
-.mh-src{font-size:11.5px;color:var(--ink3);margin:0}
-.mh-right>div:last-child{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-.mh-src a{color:var(--ink3);text-decoration:underline;text-underline-offset:2px}
-.mh-src a:hover{color:var(--ink)}
 
 /* == ml reference == */
 .eqrow .eq,.lrn .bd2 .eq{background:var(--card2);border:1px solid var(--line);
@@ -843,23 +808,34 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 
 /* One frame holds the problem, what this is, and the answer, so the whole
    argument lands in a single screen without scrolling. */
-.frame1{border:1px solid var(--line);border-radius:var(--r);background:var(--card);
-        overflow:hidden;margin-bottom:16px}
+.frame1{position:relative;border:1px solid var(--line);border-radius:var(--r);
+        background:var(--card);overflow:hidden;margin-bottom:16px}
 .frame1 .ps2{border:none;border-radius:0;margin:0;background:var(--line)}
-.frame1 .ps2>div{padding:18px 22px}
-.frame1 .ps2 h3{font-size:clamp(16px,1.9vw,19px);margin-bottom:9px}
-.frame1 .ps2 p{font-size:13.5px;margin-bottom:10px}
+/* Everything below is sized so the whole frame -- problem, what this is, and
+   the answer -- clears one 1080p screen at 100% zoom, roughly 830px of page
+   once browser chrome and the app header are taken out. */
+.frame1 .ps2>div{padding:13px 20px 14px}
+.frame1 .ps2 .h{margin-bottom:6px}
+.frame1 .ps2 h3{font-size:clamp(15px,1.6vw,17.5px);margin-bottom:6px;
+                line-height:1.22;max-width:30ch}
+/* Ties with .ps2 p:last-child on specificity, so the last paragraph kept its
+   margin and left a band of empty card under the text. Zero it here instead. */
+.frame1 .ps2 p{font-size:13px;margin-bottom:0;line-height:1.45}
 .frame1 .answerbar{border:none;border-radius:0;margin:0;
-                   border-top:1px solid var(--line);padding:16px 22px 14px}
-.frame1 .ab-q{margin-bottom:12px;padding-bottom:11px}
-.frame1 .ab-q p{font-size:clamp(16px,2vw,20px)}
-.frame1 .ledger>div{padding:10px 16px}
-.frame1 .ab-note{margin-top:10px;padding-top:9px;font-size:12px}
-
-/* A chip names a deliverable; this marks the control that produces it. */
-@keyframes nb-flash{0%,100%{box-shadow:0 0 0 0 transparent}
-                    25%,75%{box-shadow:0 0 0 3px var(--accent)}}
-.flash{animation:nb-flash 1.6s ease-in-out 1;border-radius:var(--r2)}
+                   border-top:1px solid var(--line);padding:13px 20px 12px}
+/* The question sits on the same line as its label rather than above it. */
+.frame1 .ab-q{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+              margin-bottom:11px;padding-bottom:10px}
+.frame1 .ab-q .ab-k{margin:0;flex:none}
+.frame1 .ab-q p{font-size:clamp(15px,1.6vw,18px);flex:1;min-width:0}
+.frame1 .answerbar>.ab-k{margin-bottom:7px}
+.frame1 .ledger>div{padding:7px 16px}
+.frame1 .ledger .lh{padding:6px 16px}
+.frame1 .ledger .lr span{font-size:clamp(14px,1.35vw,18px)}
+.frame1 .ledger .lr .w{font-size:13px}
+.frame1 .ledger .lr .w em{font-size:11px;margin-top:1px}
+.frame1 .ab-note{margin-top:8px;padding-top:7px;font-size:11.5px;
+                 max-width:none;white-space:normal}
 
 /* == opening sequence ==
    One pass on first paint. Everything is `both`-filled so an element is never
@@ -890,33 +866,40 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
     background:linear-gradient(90deg,transparent 42%,
                color-mix(in srgb,var(--ink) 9%,transparent) 50%,transparent 58%);
     animation:nb-sweep 1s cubic-bezier(.4,0,.2,1) .08s both}
+
+  /* The whole first screen opens like a sheet being unrolled: the frame is
+     clipped to nothing and released downward, with one warm pass of light
+     travelling across it as it opens. clip-path is used rather than transform
+     so it cannot fight the scroll-reveal, which owns transform on this element. */
+  @keyframes nb-unfold{from{clip-path:inset(0 0 100% 0)}
+                       to{clip-path:inset(0 0 0 0)}}
+  @keyframes nb-sheen{from{transform:translateX(-118%) skewX(-14deg)}
+                      to{transform:translateX(118%) skewX(-14deg)}}
+  body.boot .frame1{animation:nb-unfold .9s cubic-bezier(.22,1,.36,1) .26s both}
+  body.boot .frame1::after{content:"";position:absolute;inset:0;z-index:3;
+    pointer-events:none;
+    background:linear-gradient(100deg,transparent 34%,
+               color-mix(in srgb,var(--accent) 18%,transparent) 50%,transparent 66%);
+    animation:nb-sheen 1.15s cubic-bezier(.4,0,.2,1) .5s both}
 }
 
 /* == scroll reveal == */
 /* Guarded by prefers-reduced-motion: with motion reduced, nothing ever hides,
    so the page is fully readable even if the observer never runs. */
 @media (prefers-reduced-motion: no-preference){
-  .rv{opacity:0;transform:translateY(18px);
-      transition:opacity .6s cubic-bezier(.16,.8,.3,1) var(--d,0ms),
-                 transform .6s cubic-bezier(.16,.8,.3,1) var(--d,0ms)}
+  .rv{opacity:0;transform:translateY(12px);
+      transition:opacity .42s cubic-bezier(.16,.8,.3,1) var(--d,0ms),
+                 transform .42s cubic-bezier(.16,.8,.3,1) var(--d,0ms)}
   .rv.in{opacity:1;transform:none}
 
   /* children of a revealed block cascade after it */
   .rv .groups>*, .rv .ps2>*, .rv .breakeven>*, .rv .exp>*,
   .rv .vs>*, .rv .kpis>*, .rv .deliv>*, .rv tbody tr{
     opacity:0;transform:translateY(9px);
-    transition:opacity .45s ease var(--cd,0ms), transform .45s ease var(--cd,0ms)}
+    transition:opacity .32s ease var(--cd,0ms), transform .32s ease var(--cd,0ms)}
   .rv.in .groups>*, .rv.in .ps2>*, .rv.in .breakeven>*, .rv.in .exp>*,
   .rv.in .vs>*, .rv.in .kpis>*, .rv.in .deliv>*, .rv.in tbody tr{
     opacity:1;transform:none}
-
-  /* one sheen across the masthead on first paint, then never again */
-  .mh{position:relative;overflow:hidden}
-  .mh::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(105deg,transparent 35%,
-      color-mix(in srgb,var(--accent) 12%,transparent) 50%,transparent 65%);
-    transform:translateX(-120%);animation:sheen 1.5s .35s ease-out 1}
-  @keyframes sheen{to{transform:translateX(120%)}}
 
   /* the headline figure lands a beat after its card */
   .big2,.hero-num .big2{animation:pop .55s .25s cubic-bezier(.16,.9,.3,1) both}
@@ -1007,7 +990,6 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .grp .ghead .ico{width:17px;height:17px;stroke-width:2.1}
 .verdictbar .big3 .ico{width:.9em;height:.9em;margin-right:6px}
 .dl button .ico{margin-right:7px}
-.mh-seal .ico{width:12px;height:12px;stroke-width:2.6}
 
 /* == polarity == */
 /* One language everywhere: blue is more/act, red is less/harm, grey is nothing.
@@ -1037,7 +1019,6 @@ h1,h2,h3,h4{text-wrap:balance}
 [data-theme="dark"] .card::before,[data-theme="dark"] .hero::before,
 [data-theme="dark"] .pcard::before,[data-theme="dark"] .rw::before{
   background:linear-gradient(90deg,transparent,color-mix(in srgb,#fff 8%,transparent),transparent)}
-.mh::before{border-radius:var(--r) var(--r) 0 0}
 
 /* The two opening cards carry a little more presence than the rest. */
 .ps2>div{padding:26px 28px}

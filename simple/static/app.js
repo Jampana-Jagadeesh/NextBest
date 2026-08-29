@@ -348,18 +348,20 @@ function revealAll(root) {
       // cascade the children of this block
       const kids = e.target.querySelectorAll(
         '.groups>*, .ps2>*, .breakeven>*, .exp>*, .vs>*, .kpis>*, .deliv>*, tbody tr');
-      kids.forEach((k, i) => k.style.setProperty('--cd', Math.min(i, 12) * 40 + 'ms'));
+      kids.forEach((k, i) => k.style.setProperty('--cd', Math.min(i, 12) * 26 + 'ms'));
       _io.unobserve(e.target);
     });
-  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 });
+    // A negative bottom margin held the trigger back until a block was already
+    // well inside the viewport, so it visibly arrived late. Start it early
+    // instead: the reveal should finish as the block reaches the eye.
+  }, { rootMargin: '0px 0px 18% 0px', threshold: 0 });
 
-  // The opening pass gets a wider, more deliberate cascade than a scroll does.
+  // The stagger belongs to the opening pass only. Applying it on every scroll
+  // meant a block could sit up to 300ms behind the scroll before it began.
   const booting = document.body.classList.contains('boot');
-  const gap = booting ? 95 : 60;
-  const base = booting ? 260 : 0;      // let the masthead land first
   Array.from(root.children).forEach((child, i) => {
     child.classList.add('rv');
-    child.style.setProperty('--d', base + Math.min(i, 5) * gap + 'ms');
+    child.style.setProperty('--d', booting ? 260 + Math.min(i, 5) * 95 + 'ms' : '0ms');
     _io.observe(child);
   });
 }
@@ -374,7 +376,6 @@ const ICONS = {
   ban: '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
   up: '<path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/>',
   down: '<path d="M3 7l6 6 4-4 8 8"/><path d="M17 17h4v-4"/>',
-  check: '<path d="M20 6 9 17l-5-5"/>',
   download: '<path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/>',
   alert: '<path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4"/><path d="M12 17.5h.01"/>',
   target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
@@ -528,33 +529,11 @@ TABS.models = function (v) {
       ${row('Email everyone', d.base.n, cheap.cost, cheap.blanket)}
       ${row('Best list only', dear.n_targeted, dear.cost, dear.targeted)}
     </div>
-    <div class="ab-note">They spend back = sales that would not have happened without the
-      contact. You keep ${(E.margin_rate * 100).toFixed(0)}% of that as gross margin, and the send cost comes out of what you keep
-      \u2014 so profit is <b>keep minus spend</b>, not sales minus spend.</div>`;
+    <div class="ab-note">They spend back = sales the contact caused. Profit = what you keep \u2014 what you spend.</div>`;
 
   const intro = el('div');
   intro.style.marginBottom = '16px';
   intro.innerHTML = `
-    <div class="mh">
-      <div class="mh-left">
-        <div class="mh-dots" title="Four models predict the change we cause. One does not.">
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-        <div>
-          <div class="mh-k">AI project</div>
-          <div class="mh-v">Five machine learning models
-            <em>— four predict the change we cause, one does not</em></div>
-        </div>
-      </div>
-      <div class="mh-right">
-        <div class="mh-seal">${ico('check')}</div>
-        <div>
-          <div class="mh-k">Real customer data</div>
-          <div class="mh-src">${esc(d.source.name)} &middot; ${int(d.base.n)} customers &middot;
-            <a href="${esc(d.source.url)}" target="_blank" rel="noopener">source</a></div>
-        </div>
-      </div>
-    </div>
     <div class="ps2">
       <div class="p2">
         <div class="h">The problem</div>
@@ -565,30 +544,12 @@ TABS.models = function (v) {
         <div class="h">What this is</div>
         <h3>${esc(PR.solution_title)}</h3>
         <p>${PR.solution_body}</p>
-        <div class="chips2">${PR.deliverables.map(([t, x], i) =>
-          `<button data-go="${i}"><b>${esc(t)}</b> — ${esc(x)}</button>`).join('')}</div>
       </div>
     </div>`;
   const frame = el('div', 'frame1');
   frame.appendChild(intro);
   frame.appendChild(ab);
   v.appendChild(frame);
-
-  // Each chip names a deliverable, so each one lands on the control that
-  // produces it. Three of them used to scroll to the same block, which is why
-  // they felt broken.
-  const CHIP_TARGET = ['nb-send', 'nb-suppress', null, 'nb-price'];
-  intro.querySelectorAll('.chips2 button').forEach(b => {
-    b.onclick = () => {
-      const id = CHIP_TARGET[+b.dataset.go];
-      if (!id) { S.tab = 'products'; render(); return; }   // offer per customer
-      const t = document.getElementById(id);
-      if (!t) return;
-      t.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      t.classList.add('flash');
-      setTimeout(() => t.classList.remove('flash'), 1600);
-    };
-  });
 
 
   const hero = el('div', 'hero');
@@ -654,7 +615,6 @@ TABS.models = function (v) {
   const outHost = el('div');
   const cc = card('What should we do?',
                   'change either assumption and every number below re-prices', ctlHost);
-  cc.card.id = 'nb-decide';
   cc.body.appendChild(outHost);
   cc.card.style.marginBottom = '16px';
   v.appendChild(cc.card);
@@ -679,7 +639,6 @@ TABS.models = function (v) {
   const costW = mk('Cost to reach one customer', 'cost', 0.02, 1.00, 0.01,
                    v2 => money(v2), ['$0.02', '$1.00']);
   const presets = el('div', 'presets2');
-  presets.id = 'nb-price';
   METHODS.forEach(mth => {
     const b = el('button', '', `${esc(mth.label)} · ${money(mth.cost)}`);
     b.dataset.cost = mth.cost;
@@ -763,10 +722,8 @@ TABS.models = function (v) {
       };
       return b;
     };
-    const bSend = mkBtn('Download target list', 'contact', '');
-    const bSupp = mkBtn('Download suppression list', 'suppress', 'ghost2');
-    bSend.id = 'nb-send'; bSupp.id = 'nb-suppress';
-    dl.append(bSend, bSupp,
+    dl.append(mkBtn('Download target list', 'contact', ''),
+              mkBtn('Download suppression list', 'suppress', 'ghost2'),
               mkBtn('Download everyone', 'all', 'ghost2'),
               el('span', 'hintx', 'CSV, priced at the assumptions above — they are in the filename'));
     outHost.appendChild(dl);
@@ -1430,7 +1387,17 @@ function render() {
     S.data = await api('/api/overview');
     if (S.data.app) {
       $('#bname').textContent = S.data.app.name;
-      $('#btag').textContent = S.data.app.tagline;
+      // What the project is and what it runs on, as one line under the title.
+      // This used to be a separate strip on tab 1 costing ~60px of the first
+      // screen, and it is provenance, not content.
+      // Short enough to sit on one line beside the tabs. The long version
+      // pushed the nav into three wrapped lines.
+      const yr = (S.data.source.name.match(/\d{4}/) || ['2008'])[0];
+      $('#btag').innerHTML =
+        `${esc(S.data.app.tagline)}<i>&middot;</i>${S.data.models.length} models`
+        + `<i>&middot;</i>${int(S.data.base.n)} real customers`
+        + `<i>&middot;</i><a href="${esc(S.data.source.url)}" target="_blank" rel="noopener"`
+        + ` title="${esc(S.data.source.name)}">Hillstrom ${yr}</a>`;
       $('#mark').setAttribute('aria-label', S.data.app.name);
       document.title = S.data.app.name;   // a tab truncates past ~20 chars
     }
