@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NextBest Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230965D6'/><text x='16' y='23' font-family='monospace' font-size='19' font-weight='700' text-anchor='middle' fill='%23FFFFFF'>N</text></svg>">
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="brand-name">NextBest</div>
+        <div class="brand-sub">Uplift console</div>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-label">Operate</div>
+      <button class="nav-item" data-view="command"><span class="nav-dot"></span>Campaign Command</button>
+      <button class="nav-item" data-view="audience"><span class="nav-dot"></span>Audience Builder</button>
+      <button class="nav-item" data-view="customers"><span class="nav-dot"></span>Customers</button>
+      <div class="nav-label">Analyse</div>
+      <button class="nav-item" data-view="offers"><span class="nav-dot"></span>Offer Matrix</button>
+      <button class="nav-item" data-view="models"><span class="nav-dot"></span>Model Bake-off</button>
+      <button class="nav-item" data-view="health"><span class="nav-dot"></span>Model Health</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="champ-badge" id="champBadge">loading…</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="viewTitle">Campaign Command</h1>
+        <p id="viewSub">Loading model artifacts…</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">Light</button>
+      </div>
+    </header>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Customer detail"></aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

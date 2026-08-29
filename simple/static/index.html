@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NextBest</title>
+<meta property="og:title" content="NextBest — Retail Customer Intelligence">
+<meta name="description" content="Which customers a campaign actually changes the behaviour of, measured on 64,000 real customers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230965D6'/><g fill='white' transform='translate(4 4) scale(1)'><rect x='2.8' y='4.2' width='3.2' height='12' rx='1.1'/><rect x='8' y='7.4' width='3.2' height='8.8' rx='1.1'/><rect x='13.2' y='10.8' width='3.2' height='5.4' rx='1.1'/><rect x='18.4' y='16.2' width='3.2' height='4.2' rx='1.1' opacity='.55'/></g></svg>">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="mark" id="mark" role="img" aria-label="NextBest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="2.8" y="4.2" width="3.2" height="12" rx="1.1"/><rect x="8" y="7.4" width="3.2" height="8.8" rx="1.1"/><rect x="13.2" y="10.8" width="3.2" height="5.4" rx="1.1"/><rect x="18.4" y="16.2" width="3.2" height="4.2" rx="1.1" opacity=".55"/></svg></div>
+      <div><b id="bname">NextBest</b><span id="btag">Retail Customer Intelligence</span></div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab on" data-tab="models" role="tab" aria-selected="true">1 &middot; The model</button>
+      <button class="tab" data-tab="products" role="tab" aria-selected="false">2 &middot; Products &amp; offers</button>
+      <button class="tab" data-tab="customers" role="tab" aria-selected="false">3 &middot; Customers</button>
+      <button class="tab" data-tab="reference" role="tab" aria-selected="false">4 &middot; The ML</button>
+    </nav>
+    <button class="iconbtn" id="theme" aria-label="Switch colour theme">Light</button>
+  </div>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<footer class="site-foot">
+  <div class="foot-in foot-who">
+    <b>Jagadeesh Jampana</b><span>Retail customer intelligence &middot; uplift modelling</span>
+  </div>
+  <nav class="foot-in foot-links" aria-label="Contact">
+    <a href="mailto:jagadeeshjampana5@gmail.com">Email</a>
+    <a href="https://github.com/Jampana-Jagadeesh" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/jampana-jagadeesh-9704002a2/" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="foot-in foot-legal">
+    <span>&copy; 2026 Jagadeesh Jampana &middot; All rights reserved</span>
+    <span>Hillstrom MineThatData (2008) &middot; 64,000 real customers</span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Customer detail"></aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

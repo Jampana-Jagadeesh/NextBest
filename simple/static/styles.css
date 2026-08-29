@@ -1,0 +1,1014 @@
+/* ==========================================================================
+   NextBest - Retail Customer Intelligence
+
+   Theme: QUIET. Plum-tinted monochrome chrome, colour only on the data.
+
+   The interface itself carries no hue: the brand mark, the active tab and the
+   focus ring are all pewter. Colour is spent exclusively on the four decisions,
+   so anything coloured on screen is a value, never decoration. That also means
+   the brand can never be misread as data -- an earlier palette used one colour
+   for both the brand and the persuadable quadrant.
+
+   blue = act, amber = leave alone, grey = ignore, red = stop.
+
+   Surfaces separate by hairline and tint rather than shadow. The line reads at
+   1.62:1 against the page and 1.48:1 against a card, which is what makes a card
+   look like a plane; an earlier pass dropped the shadows without raising this
+   and everything collapsed into one flat field at 1.07:1.
+
+   Contrast: all 38 foreground/background pairs clear WCAG AA 4.5:1 in both
+   modes, including every colour on its own tinted ground.
+
+   Colour-blind separation between the four states, worst pair:
+   dark  protanopia dE 29.5, deuteranopia dE 43.0
+   light protanopia dE 18.1, deuteranopia dE 12.1
+   Icons carry the meaning too, since
+   with four states where one must be grey and one must be red no hue
+   assignment clears every gate.
+   ========================================================================= */
+
+:root{
+  /* ---- surfaces -------------------------------------------------------- */
+  --bg:#EFE8EC; --card:#FDFCFD; --card2:#E6DAE1; --card3:#DDCED7;
+  --line:#DDD0D9; --line2:#BFAEBA;
+  --ink:#1A141A; --ink2:#544B53; --ink3:#6E636C;
+
+  /* ---- brand: identity, navigation, focus. Deliberately colourless. ----- */
+  --accent:#4A414C; --accent-soft:#E6DAE1; --on-accent:#FFFFFF;
+
+  /* ---- the four decisions: the only hue in the product -----------------
+     Blue/red rather than green/red. The suppression list is the decision
+     with legal weight, so it is the one that must never be misread.
+     Green also implied "good customer" -- but a sleeping dog is often your
+     best customer. These are actions, not judgements.                      */
+  --act:#0965D6;     --act-soft:#E6F0FC;     /* contact them       5.31:1 */
+  --caution:#755602; --caution-soft:#FCF5E6; /* no offer needed    6.64:1 */
+  --dead:#6E636C;    --dead-soft:#EBE3E8;    /* not worth it       5.56:1 */
+  --harm:#D20D32;    --harm-soft:#FCE6EA;    /* leave them alone   5.31:1 */
+  --on-harm:#FFFFFF;
+  /* Brighter still, for graphics and large figures, where the gate is 3:1
+     rather than 4.5:1 -- bars, chart strokes, the big group-card numbers. */
+  --act-v:#0473FB; --caution-v:#B57B00; --dead-v:#6E636C; --harm-v:#F60934;
+
+  /* ---- one polarity language: uplift, money, deltas, bars -------------- */
+  --pos:var(--act); --neg:var(--harm); --zero:var(--ink3);
+
+  /* ---- legacy aliases so existing rules keep working ------------------- */
+  --good:var(--act); --good-soft:var(--act-soft);
+  --calm:var(--caution); --calm-soft:var(--caution-soft);
+  --mute:var(--dead); --mute-soft:var(--dead-soft);
+  --stop:var(--harm); --stop-soft:var(--harm-soft); --on-stop:var(--on-harm);
+
+  --r:10px; --r2:6px;
+  /* Only the drawer genuinely floats. Cards separate by hairline and tint. */
+  --shadow:0 1px 2px rgba(26,20,26,.05), 0 1px 3px rgba(26,20,26,.07);
+  --lift:0 18px 48px -24px rgba(26,20,26,.45);
+  /* Paper grain, page only -- never on a card. ~280 bytes, no request. */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --bg:#0A080B; --card:#181419; --card2:#221D23; --card3:#2B252D;
+  --line:#3A323C; --line2:#4E4551;
+  --ink:#F5F0F5; --ink2:#C4B6C3; --ink3:#988B96;
+
+  --accent:#C9BFC7; --accent-soft:#221D23; --on-accent:#141014;
+
+  --act:#2181F6;     --act-soft:#101C2B;     /* 4.81:1 */
+  --caution:#FBAD04; --caution-soft:#2B2210; /* 9.63:1 */
+  --dead:#A99BA6;    --dead-soft:#241D27;    /* 6.94:1 */
+  --harm:#F23155;    --harm-soft:#2B1015;    /* 4.63:1 */
+  --on-harm:#2A0F16;
+  --act-v:#0473FB; --caution-v:#FFAE01; --dead-v:#A99BA6; --harm-v:#F60935;
+
+  --pos:var(--act); --neg:var(--harm); --zero:var(--ink3);
+
+  --good:var(--act); --good-soft:var(--act-soft);
+  --calm:var(--caution); --calm-soft:var(--caution-soft);
+  --mute:var(--dead); --mute-soft:var(--dead-soft);
+  --stop:var(--harm); --stop-soft:var(--harm-soft); --on-stop:var(--on-harm);
+
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+  --lift:0 18px 48px -20px rgba(0,0,0,.85);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.05'/%3E%3C/svg%3E");
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+@media (max-width:640px){
+  /* The four labels wrapped to 2-3 lines each and pushed content off screen. */
+  .tabs{overflow-x:auto;scrollbar-width:none;margin-left:0;width:100%}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;flex:none;padding:7px 11px;font-size:12.5px}
+  .top-in{flex-wrap:wrap;gap:10px}
+}
+
+@media print{
+  /* Without this the scroll reveal never fires and every page prints blank. */
+  .rv,.rv.in{opacity:1!important;transform:none!important}
+  body{background:#fff!important;background-image:none!important;color:#000}
+  .top,.tabs,.dl,.iconbtn,.scrim,.drawer{display:none!important}
+  body::after,body::before{display:none!important}
+  .card,.mblock,.hero,.rw,.groups{break-inside:avoid;page-break-inside:avoid}
+}
+body{margin:0;background-color:var(--bg);background-image:var(--grain);color:var(--ink);
+     font:15px/1.6 "Public Sans","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+.mono,.num{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;
+           font-variant-numeric:tabular-nums}
+/* Charts are SVG, so ticks need it set on the element that renders them. */
+svg text{font-variant-numeric:tabular-nums}
+/* The hero figures keep proportional numerals -- they are display type. */
+.v.hero,.big3,.grp .n{font-variant-numeric:normal}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:5px}
+p{margin:0 0 12px}
+
+/* ---------------------------------------------------------------- header */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);
+     backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1220px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.mark{width:32px;height:32px;border-radius:9px;background:var(--accent);display:grid;place-items:center;
+      color:var(--on-accent);flex:none}
+.mark svg{width:20px;height:20px;display:block}
+.brand b{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:16px;display:block;line-height:1.2}
+.brand span{font-size:11.5px;color:var(--ink3)}
+.tabs{display:flex;gap:3px;margin-left:auto}
+.tab{background:none;border:none;padding:7px 15px;border-radius:var(--r2);color:var(--ink2);
+     position:relative;
+     font-size:13.5px;font-weight:500;transition:.15s}
+.tab:hover{background:var(--card2);color:var(--ink)}
+/* Quiet chrome: the current tab is marked, not filled. */
+.tab.on{background:none;color:var(--ink);font-weight:600}
+.tab.on::after{content:"";position:absolute;left:14px;right:14px;bottom:1px;height:2px;
+               background:var(--accent);border-radius:2px}
+.iconbtn{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:6px 12px;
+         font-size:12.5px;color:var(--ink2);flex:none;transition:.15s}
+.iconbtn:hover{border-color:var(--line2);color:var(--ink)}
+
+.wrap{max-width:1220px;margin:0 auto;padding:24px 26px 28px}
+.head{margin-bottom:20px}
+.head h2{font-size:23px;margin-bottom:5px}
+.head p{color:var(--ink2);max-width:none;margin:0;font-size:14.5px}
+
+/* ----------------------------------------------------------------- cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.card:hover{border-color:var(--line2)}
+.card-h{padding:17px 21px 14px;border-bottom:1px solid var(--line);display:flex;
+        justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+.card-h h3{font-size:16px}
+.card-h .hint{font-size:12px;color:var(--ink3)}
+.card-b{padding:19px 21px 21px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g21{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+@media(max-width:940px){.g2,.g21{grid-template-columns:1fr}}
+
+.lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+
+/* -------------------------------------------------------------- problem */
+.problem{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--stop);
+         border-radius:var(--r);padding:24px 26px}
+.problem .lab{color:var(--stop)}
+.problem h2{font-size:clamp(20px,3vw,27px);line-height:1.22;margin-bottom:13px;max-width:30ch}
+.problem p{color:var(--ink2);font-size:14.5px;max-width:80ch}
+.problem .aside{background:var(--stop-soft);border-radius:var(--r2);padding:12px 15px;
+                font-size:13.5px;color:var(--ink2);margin-top:4px}
+.problem .aside b{color:var(--ink)}
+
+/* --------------------------------------------------------------- answer */
+.answer{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+        border-radius:var(--r);padding:24px 26px}
+.answer .lab{color:var(--accent)}
+/* Number and its headline read as one line, centred on each other rather than
+   sharing a baseline -- a 68px figure next to 19px text looks broken on a
+   baseline. Detail then flows full width underneath, so it reads top to bottom. */
+.big{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.big .n{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(44px,8vw,68px);
+        line-height:1;letter-spacing:-.045em;color:var(--stop);flex:none}
+.big .t{font-size:clamp(17px,2.2vw,21px);color:var(--ink);font-weight:600;
+        letter-spacing:-.015em;line-height:1.25;max-width:20ch}
+.answer .detail{font-size:14.5px;color:var(--ink2);max-width:82ch;margin:0 0 14px}
+.answer .detail b{color:var(--ink);font-weight:600}
+.answer .sol{font-size:14.5px;color:var(--ink2);max-width:82ch;margin:0;
+             border-top:1px solid var(--line);padding-top:14px}
+.answer .sol b{color:var(--ink)}
+
+/* --------------------------------------------------------------- groups */
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
+        background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.grp{background:var(--card);padding:17px 19px 17px 16px;border:none;
+     border-left:4px solid transparent;text-align:left;width:100%;transition:.15s}
+.grp:hover{background:var(--card2)}
+.grp.picked{outline:2px solid var(--accent);outline-offset:-2px}
+.grp .n{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:28px;
+        letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.grp .l{font-size:14px;font-weight:600;margin:8px 0 4px}
+.grp .w{font-size:12.5px;color:var(--ink3);line-height:1.45}
+.grp .go{font-size:11.5px;color:var(--accent);margin-top:9px;display:inline-block}
+.grp.good{border-left-color:var(--act);background:var(--act-soft)} .grp.good .n{color:var(--act-v)}
+.grp.neutral{border-left-color:var(--caution);background:var(--caution-soft)} .grp.neutral .n{color:var(--calm)}
+.grp.muted{border-left-color:var(--dead);background:var(--dead-soft)} .grp.muted .n{color:var(--mute)}
+.grp.bad{border-left-color:var(--harm);background:var(--harm-soft)} .grp.bad .n{color:var(--stop)}
+
+/* ------------------------------------------------------------- vs table */
+.vs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.vs>div{background:var(--card);padding:16px 19px}
+.vs .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.11em;
+       text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.vs .v{font-size:23px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.vs .s{font-size:12.5px;color:var(--ink3);margin-top:5px}
+.vs .loss .v{color:var(--stop)}
+.vs .loss .s{color:var(--stop)}
+.vs .win .v{color:var(--ink)}
+.vs .gain{background:var(--good-soft)}
+.vs .gain .v{color:var(--good)}
+.vs .gain .s{color:var(--good)}
+@media(max-width:760px){.vs{grid-template-columns:1fr}}
+
+/* ------------------------------------------------------------ kpi strip */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+      background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.kpis>div{background:var(--card);padding:14px 17px}
+.kpis dt{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.11em;
+         text-transform:uppercase;color:var(--ink3);margin:0 0 6px}
+.kpis dd{margin:0;font-size:20px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+/* ----------------------------------------------------------------- bars */
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar{display:grid;grid-template-columns:120px 1fr 92px;gap:12px;align-items:center}
+.bar .nm{font-size:13.5px;color:var(--ink2)}
+.bar .tr{height:9px;background:var(--card3);border-radius:5px;overflow:hidden}
+/* A chart fill is data, so it takes a data colour -- never the brand. */
+.bar .tr i{display:block;height:100%;border-radius:5px;background:var(--act)}
+.bar .vv{font-size:13px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* ---------------------------------------------------------------- table */
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;
+       font-variant-numeric:tabular-nums}
+th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;
+   text-transform:uppercase;color:var(--ink3);font-weight:500;padding:11px 15px;
+   border-bottom:1px solid var(--line);background:var(--card2);white-space:nowrap}
+td{padding:11px 15px;border-bottom:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--card2);color:var(--ink)}
+td.s{color:var(--ink);font-weight:500}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.up{color:var(--good)} .dn{color:var(--stop)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:500;
+      padding:3px 9px;border-radius:var(--r2);white-space:nowrap;
+      border:1px solid color-mix(in srgb, currentColor 25%, transparent)}
+.pill::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.contact{background:var(--good-soft);color:var(--good)}
+.pill.no_offer{background:var(--calm-soft);color:var(--calm)}
+.pill.not_worth{background:var(--mute-soft);color:var(--mute)}
+.pill.suppress{background:var(--stop-soft);color:var(--stop)}
+.tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+     color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:2px 7px}
+
+/* -------------------------------------------------------------- filters */
+.filters{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end}
+.f{display:flex;flex-direction:column;gap:6px}
+.f label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.11em;
+         text-transform:uppercase;color:var(--ink3)}
+select,input[type=text]{background:var(--card2);border:1px solid var(--line);color:var(--ink);
+  border-radius:var(--r2);padding:8px 11px;font:inherit;font-size:13.5px;min-width:158px}
+select:hover,input[type=text]:hover{border-color:var(--line2)}
+.btn{background:var(--card2);border:1px solid var(--line);border-radius:var(--r2);padding:8px 15px;
+     font-size:13px;color:var(--ink2)}
+.btn:hover{border-color:var(--line2);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* --------------------------------------------------------------- reward */
+.rw{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;border-top:3px solid var(--line2)}
+.rw .n{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;
+       color:var(--good);line-height:1;font-variant-numeric:tabular-nums}
+.rw h3{font-size:17px;margin:9px 0 6px}
+.rw p{font-size:13.5px;color:var(--ink2);margin:0 0 12px}
+.rw .foot{font-size:12.5px;color:var(--ink3);border-top:1px solid var(--line);padding-top:11px}
+.rw .foot b{color:var(--ink)}
+
+/* --------------------------------------------------------------- models */
+.mrow{display:grid;grid-template-columns:290px 1fr;gap:18px;align-items:start}
+@media(max-width:940px){.mrow{grid-template-columns:1fr}}
+.mlist{display:flex;flex-direction:column;gap:8px;position:sticky;top:84px}
+@media(max-width:940px){.mlist{position:static}}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+    text-align:left;width:100%;transition:.15s}
+.mc:hover{border-color:var(--line2)}
+.mc.on{border-color:var(--accent);background:var(--accent-soft)}
+.mc h4{font-size:14.5px;margin-bottom:4px}
+.mc .a{font-size:12.5px;color:var(--ink3);line-height:1.45;margin-bottom:9px}
+.mc.on .a{color:var(--ink2)}
+.mc .m{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);
+       font-family:"JetBrains Mono",monospace}
+.badge{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+       padding:4px 10px;border-radius:var(--r2);white-space:nowrap;flex:none}
+.badge.best,.badge.good{background:var(--good-soft);color:var(--good)}
+.badge.ok{background:var(--calm-soft);color:var(--calm)}
+.badge.avoid{background:var(--stop-soft);color:var(--stop)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:1px;
+       background:var(--line);border:1px solid var(--line);border-radius:var(--r2);
+       overflow:hidden;margin-bottom:18px}
+.stats>div{background:var(--card);padding:11px 14px}
+.stats .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+          text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.stats .v{font-size:20px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.stats .v.up{color:var(--good)} .stats .v.dn{color:var(--stop)}
+
+.sec{margin-bottom:17px} .sec:last-child{margin-bottom:0}
+.sec p{margin:0;color:var(--ink2);font-size:14.5px}
+.quote{background:var(--card2);border-left:2px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0;
+       padding:13px 16px}
+.quote p{color:var(--ink2);font-size:14px}
+.warn{background:var(--stop-soft);border-left:2px solid var(--stop);border-radius:0 var(--r2) var(--r2) 0;
+      padding:13px 16px}
+.warn p{color:var(--ink2);font-size:14px;margin:0}
+.note{background:var(--card2);border-left:2px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0;
+      padding:12px 15px;font-size:13.5px;color:var(--ink2)}
+.note b{color:var(--ink)}
+
+dl.gl{margin:0;display:grid;gap:16px}
+dl.gl dt{font-weight:600;font-size:15px;margin-bottom:3px;font-family:"Bricolage Grotesque",sans-serif}
+dl.gl dd{margin:0;color:var(--ink2);font-size:14.5px}
+
+/* --------------------------------------------------------------- drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;
+       transition:opacity .2s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(520px,94vw);background:var(--card);
+        border-left:1px solid var(--line);transform:translateX(100%);
+        transition:transform .24s cubic-bezier(.4,0,.2,1);z-index:50;overflow-y:auto;
+        box-shadow:var(--lift)}
+.drawer.open{transform:translateX(0)}
+.dh{position:sticky;top:0;background:var(--card);z-index:2;padding:18px 21px 15px;
+    border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+    align-items:flex-start;gap:12px}
+.db{padding:19px 21px 42px;display:flex;flex-direction:column;gap:18px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
+.kv>div{background:var(--card);padding:10px 12px}
+.kv dt{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+       text-transform:uppercase;color:var(--ink3);margin:0 0 4px}
+.kv dd{margin:0;font-size:13.5px;font-weight:500;font-variant-numeric:tabular-nums}
+
+.verdict{border-radius:var(--r);padding:19px 21px;border:1px solid}
+.verdict.good{border-color:var(--good);background:var(--good-soft)}
+.verdict.neutral{border-color:var(--calm);background:var(--calm-soft)}
+.verdict.muted{border-color:var(--line2);background:var(--mute-soft)}
+.verdict.bad{border-color:var(--stop);background:var(--stop-soft)}
+.verdict .t{font-family:"Bricolage Grotesque",sans-serif;font-size:24px;font-weight:700;
+            letter-spacing:-.03em;line-height:1.1;margin-bottom:6px}
+.verdict.good .t{color:var(--good)} .verdict.bad .t{color:var(--stop)}
+.verdict.neutral .t{color:var(--calm)}
+.verdict p{margin:0;font-size:13.5px;color:var(--ink2)}
+
+.cf{display:grid;grid-template-columns:132px 1fr 58px;gap:11px;align-items:center;margin-bottom:8px}
+.cf .t{font-size:12.5px;color:var(--ink2)}
+.cf .tr{height:9px;background:var(--card3);border-radius:5px;overflow:hidden}
+.cf .tr i{display:block;height:100%;border-radius:5px}
+.cf .v{font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums;
+       font-family:"JetBrains Mono",monospace}
+
+.sk{background:linear-gradient(90deg,var(--card2) 25%,var(--card3) 50%,var(--card2) 75%);
+    background-size:200% 100%;animation:sk 1.3s infinite;border-radius:var(--r)}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty{padding:38px;text-align:center;color:var(--ink3);font-size:13.5px}
+svg{display:block;overflow:visible}
+.ax{font-family:"JetBrains Mono",monospace;font-size:9.5px;fill:var(--ink3)}
+
+@media(max-width:860px){.top-in{flex-wrap:wrap}.tabs{width:100%;order:3;margin-left:0}.wrap{padding:16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ------------------------------------------------- one card per model, open */
+.mblock{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.mblock.pick{border-color:var(--accent)}
+.mblock.wrong{border-color:var(--stop)}
+.mhead{display:flex;align-items:flex-start;gap:14px;padding:19px 22px 16px;
+       border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mnum{width:34px;height:34px;border-radius:9px;background:var(--card3);color:var(--ink2);
+      display:grid;place-items:center;flex:none;font-family:"Bricolage Grotesque",sans-serif;
+      font-weight:700;font-size:16px}
+.mblock.pick .mnum{background:var(--accent);color:var(--on-accent)}
+.mblock.wrong .mnum{background:var(--stop);color:var(--on-stop)}
+.mhead .t{flex:1;min-width:200px}
+.mhead h3{font-size:18px;margin-bottom:4px}
+.mhead .say{font-size:13.5px;color:var(--ink2);margin:0}
+.mbody{padding:19px 22px 22px}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+@media(max-width:820px){.mgrid{grid-template-columns:1fr}}
+
+/* ------------------------------------------------------ best / worst product */
+.pf{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:820px){.pf{grid-template-columns:1fr}}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+       padding:21px 23px;border-top:3px solid var(--line2)}
+.pcard.win{border-top-color:var(--good)}
+.pcard.weak{border-top-color:var(--stop)}
+.pcard .lab{margin-bottom:10px}
+.pcard.win .lab{color:var(--good)} .pcard.weak .lab{color:var(--stop)}
+.pcard h3{font-size:22px;margin-bottom:3px}
+.pcard .sub{font-size:13px;color:var(--ink3);margin-bottom:15px}
+.pcard .figs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+             border:1px solid var(--line);border-radius:var(--r2);overflow:hidden;margin-bottom:15px}
+.pcard .figs>div{background:var(--card);padding:10px 12px}
+.pcard .figs .k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;
+                text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.pcard .figs .v{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.fix{background:var(--good-soft);border-radius:var(--r2);padding:14px 16px}
+.fix .t{font-family:"Bricolage Grotesque",sans-serif;font-size:17px;font-weight:700;
+        color:var(--good);margin-bottom:5px}
+.fix p{margin:0;font-size:13.5px;color:var(--ink2)}
+.fix .n{display:block;margin-top:9px;font-family:"JetBrains Mono",monospace;
+        font-size:13px;color:var(--ink)}
+.fix.none{background:var(--mute-soft)}
+.fix.none .t{color:var(--ink2)}
+
+/* -------------------------------------------- numbered steps in the drawer */
+.step{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.step i{width:21px;height:21px;border-radius:6px;background:var(--card3);color:var(--ink2);
+        display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-size:10.5px;
+        font-style:normal;font-weight:500;flex:none}
+.step .lab{margin:0}
+.step.final i{background:var(--accent);color:var(--on-accent)}
+.verdict .then{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.13em;
+               text-transform:uppercase;opacity:.75;margin-bottom:7px;display:block}
+
+/* --------------------------------------- what a model would have you actually do */
+.did{border-radius:var(--r2);padding:16px 18px;margin-bottom:18px;border:1px solid}
+.did.win{background:var(--good-soft);border-color:var(--good)}
+.did.mid{background:var(--card2);border-color:var(--line2)}
+.did.bad{background:var(--stop-soft);border-color:var(--stop)}
+.did .lab{margin-bottom:11px}
+.did.win .lab{color:var(--good)} .did.bad .lab{color:var(--stop)}
+.did .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:16px}
+.did .row>div{min-width:0}
+.did .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+        text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.did .v{font-size:20px;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;
+        font-family:"Bricolage Grotesque",sans-serif}
+.did.win .v.hero{color:var(--good)} .did.bad .v.hero{color:var(--stop)}
+.did .said{margin:12px 0 0;font-size:13.5px;color:var(--ink2)}
+.did .said b{color:var(--ink)}
+
+.ladder{display:flex;flex-direction:column;gap:9px}
+.lrow{display:grid;grid-template-columns:190px 1fr 132px;gap:13px;align-items:center}
+.lrow .nm{font-size:13.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .tr{height:12px;background:var(--card3);border-radius:6px;position:relative;overflow:hidden}
+.lrow .tr i{position:absolute;top:0;height:100%;border-radius:6px}
+.lrow .tr .zero{position:absolute;top:0;height:100%;width:1px;background:var(--line2)}
+.lrow .vv{font-size:13px;text-align:right;font-variant-numeric:tabular-nums;
+          font-family:"JetBrains Mono",monospace}
+
+/* --------------------------------------------------- what we are predicting */
+.pred{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--r);
+      padding:20px 23px;margin-bottom:18px}
+.pred .lab{color:var(--accent);margin-bottom:9px}
+.pred p{margin:0;font-size:clamp(16px,2.1vw,19px);line-height:1.35;color:var(--ink);
+        font-weight:500;letter-spacing:-.01em;max-width:46ch}
+.pred .sub{margin-top:10px;font-size:13.5px;color:var(--ink2);font-weight:400;max-width:70ch}
+
+.mpred{background:var(--card2);border-radius:var(--r2);padding:13px 16px;margin-bottom:16px}
+.mpred .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.11em;
+          text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.mpred p{margin:0;font-size:14.5px;color:var(--ink)}
+
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+       border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
+.three>div{background:var(--card);padding:13px 15px}
+.three .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+          text-transform:uppercase;margin-bottom:6px;color:var(--ink3)}
+.three .g .k{color:var(--good)} .three .b .k{color:var(--stop)}
+.three p{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.5}
+@media(max-width:780px){.three{grid-template-columns:1fr}}
+
+/* == page-1 summary == */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.hero-top{padding:24px 26px 20px;border-bottom:1px solid var(--line)}
+.hero-top .lab{color:var(--ink3)}
+.hero-top h2{font-size:clamp(19px,2.8vw,25px);line-height:1.25;max-width:34ch;margin-bottom:10px}
+.hero-top p{margin:0;color:var(--ink2);font-size:14px;max-width:84ch}
+.hero-grid{display:grid;grid-template-columns:auto 1fr}
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr}}
+.hero-num{padding:22px 26px;border-right:1px solid var(--line);display:flex;
+          flex-direction:column;justify-content:center;min-width:236px}
+@media(max-width:820px){.hero-num{border-right:none;border-bottom:1px solid var(--line)}}
+.hero-num .big2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+                font-size:clamp(40px,7vw,58px);line-height:1;letter-spacing:-.045em;color:var(--stop)}
+.hero-num .cap{font-size:14px;color:var(--ink);font-weight:600;margin-top:7px}
+.hero-num .sm{font-size:12.5px;color:var(--ink3);margin-top:5px}
+.hero-money{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+@media(max-width:700px){.hero-money{grid-template-columns:1fr}}
+.hero-money>div{background:var(--card);padding:20px 22px}
+.hero-money .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+               text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.hero-money .v{font-family:"Bricolage Grotesque",sans-serif;font-size:22px;font-weight:700;
+               letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.hero-money .s{font-size:12px;color:var(--ink3);margin-top:5px}
+.hero-money .loss2 .v{color:var(--stop)}
+.hero-money .gain2{background:var(--good-soft)}
+.hero-money .gain2 .v{color:var(--good)}
+.hero-money .gain2 .s{color:var(--good)}
+
+.oneline{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--r);
+         padding:17px 21px;margin-bottom:16px;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.oneline .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+            text-transform:uppercase;color:var(--accent);flex:none;padding-top:3px}
+.oneline p{margin:0;font-size:15.5px;color:var(--ink);font-weight:500;max-width:74ch}
+.oneline p span{display:block;font-weight:400;font-size:13px;color:var(--ink2);margin-top:5px}
+
+/* expandable detail row inside the standard table */
+tr.click td .chev{display:inline-block;color:var(--ink3);font-size:10px;transition:transform .18s}
+tr.click.open td .chev{transform:rotate(90deg)}
+tr.click.open td{background:var(--card2);color:var(--ink)}
+tr.detrow td{background:var(--card2);padding:0 15px 18px;white-space:normal}
+.det-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:820px){.det-cols{grid-template-columns:1fr}}
+.det-cols>div{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:12px 14px}
+.det-cols .k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;
+             text-transform:uppercase;margin-bottom:6px;color:var(--ink3)}
+.det-cols .gk .k{color:var(--good)} .det-cols .bk .k{color:var(--stop)}
+.det-cols p{margin:0;font-size:13px;color:var(--ink2);line-height:1.5}
+
+details.more{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+             overflow:hidden;margin-bottom:12px}
+details.more>summary{padding:15px 20px;cursor:pointer;font-size:14px;font-weight:600;
+                     list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"+";color:var(--ink3);font-size:17px;font-weight:400}
+details.more[open]>summary::after{content:"\2212"}
+details.more[open]>summary{border-bottom:1px solid var(--line)}
+details.more .inner{padding:18px 20px 20px}
+details.more .inner p:last-child{margin-bottom:0}
+
+/* == business takeaway == */
+.take{border-radius:var(--r2);padding:15px 17px;margin-bottom:14px;border:1px solid}
+.take.good2{background:var(--good-soft);border-color:var(--good)}
+.take.mid2{background:var(--card);border-color:var(--line2)}
+.take.bad2{background:var(--stop-soft);border-color:var(--stop)}
+.take .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+         text-transform:uppercase;margin-bottom:8px;color:var(--ink3)}
+.take.good2 .k{color:var(--good)} .take.bad2 .k{color:var(--stop)}
+.take .line{font-size:16px;font-weight:600;color:var(--ink);line-height:1.35;letter-spacing:-.01em;
+            margin-bottom:6px}
+.take p{margin:0;font-size:13.5px;color:var(--ink2)}
+.take p b{color:var(--ink)}
+.forwho{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+        text-transform:uppercase;color:var(--ink3);margin:16px 0 9px;
+        display:flex;align-items:center;gap:9px}
+.forwho::after{content:"";flex:1;height:1px;background:var(--line)}
+/* the row itself carries the plain summary, so it reads without expanding */
+td .sumline{display:block;font-size:12px;color:var(--ink3);margin-top:3px;white-space:normal;
+            max-width:34ch}
+tr.click.open td .sumline{color:var(--ink2)}
+
+/* == real-data break-even == */
+.realtag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+         padding:4px 11px;border-radius:20px;background:var(--good-soft);color:var(--good);
+         margin-bottom:12px}
+.realtag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.breakeven{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;
+           background:var(--line);border:1px solid var(--line);border-radius:var(--r);
+           overflow:hidden;margin-bottom:16px}
+.breakeven>div{background:var(--card);padding:16px 19px}
+.breakeven .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+              text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.breakeven .v{font-family:"Bricolage Grotesque",sans-serif;font-size:24px;font-weight:700;
+              letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.breakeven .s{font-size:12px;color:var(--ink3);margin-top:5px}
+.breakeven .key{background:var(--accent-soft)}
+.breakeven .key .k{color:var(--accent)}
+.breakeven .key .v{color:var(--accent)}
+
+td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.verd.blanket{background:var(--calm-soft);color:var(--calm)}
+.verd.target{background:var(--good-soft);color:var(--good)}
+.verd.stop{background:var(--stop-soft);color:var(--stop)}
+
+/* == the experiment == */
+.exp{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:1px;background:var(--line);
+     border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 0}
+@media(max-width:760px){.exp{grid-template-columns:1fr}}
+.exp>div{background:var(--card);padding:17px 20px}
+.exp .who{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.11em;
+          text-transform:uppercase;color:var(--ink3);margin-bottom:9px}
+.exp .n{font-size:13px;color:var(--ink3);margin-bottom:6px}
+.exp .r{font-family:"Bricolage Grotesque",sans-serif;font-size:30px;font-weight:700;
+        letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.exp .cap{font-size:12.5px;color:var(--ink3);margin-top:6px}
+.exp .diff{background:var(--good-soft)}
+.exp .diff .who{color:var(--good)}
+.exp .diff .r{color:var(--good)}
+.exp .diff .r2{font-family:"Bricolage Grotesque",sans-serif;font-size:19px;font-weight:700;
+               color:var(--good);letter-spacing:-.02em;margin-top:5px}
+.exp .diff .cap{color:var(--good);opacity:.85}
+
+/* == project intro == */
+.intro{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px 30px 26px;margin-bottom:16px}
+.kicker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.kicker .badge2{display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono",monospace;
+                font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:500;
+                padding:5px 12px;border-radius:20px;background:var(--accent-soft);color:var(--accent)}
+.kicker .badge3{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;
+                padding:4px 12px;border-radius:20px;background:var(--good-soft);color:var(--good)}
+.kicker .badge3::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.intro h1{font-size:clamp(23px,3.6vw,33px);line-height:1.18;letter-spacing:-.03em;
+          max-width:24ch;margin-bottom:13px}
+.intro .lead{font-size:15.5px;color:var(--ink2);max-width:82ch;margin:0}
+
+.pwd{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+     border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:22px}
+@media(max-width:820px){.pwd{grid-template-columns:1fr}}
+.pwd>div{background:var(--card2);padding:19px 21px}
+.pwd .h{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+        text-transform:uppercase;margin-bottom:10px}
+.pwd .prob .h{color:var(--stop)}
+.pwd .does .h{color:var(--good)}
+.pwd h3{font-size:17px;line-height:1.3;margin-bottom:9px;max-width:26ch}
+.pwd p{margin:0;font-size:14px;color:var(--ink2)}
+.pwd ul{margin:10px 0 0;padding-left:17px}
+.pwd li{font-size:13.5px;color:var(--ink2);margin-bottom:5px}
+.pwd li::marker{color:var(--good)}
+
+/* == problem then solution == */
+.probblock{border-left:3px solid var(--stop);padding-left:20px;margin-bottom:24px}
+.probblock .h{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;
+              text-transform:uppercase;color:var(--stop);margin-bottom:11px}
+.probblock h1{font-size:clamp(23px,3.6vw,33px);line-height:1.18;letter-spacing:-.03em;
+              max-width:26ch;margin-bottom:13px}
+.probblock p{font-size:15px;color:var(--ink2);max-width:80ch;margin:0 0 12px}
+.probblock .cost{display:inline-block;background:var(--stop-soft);color:var(--ink2);
+                 border-radius:var(--r2);padding:10px 14px;font-size:13.5px;margin:0}
+
+.solblock{border-left:3px solid var(--good);padding-left:20px}
+.solblock .h{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--good);margin-bottom:11px}
+.solblock h2{font-size:clamp(19px,2.7vw,25px);line-height:1.24;letter-spacing:-.025em;
+             max-width:28ch;margin-bottom:11px}
+.solblock p{font-size:14.5px;color:var(--ink2);max-width:80ch;margin:0}
+.deliv{display:grid;grid-template-columns:repeat(auto-fit,minmax(186px,1fr));gap:10px;margin-top:18px}
+.deliv>div{background:var(--card2);border:1px solid var(--line);border-radius:var(--r2);
+           padding:13px 15px}
+.deliv .t{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.deliv .d{font-size:12.5px;color:var(--ink3);line-height:1.45}
+
+/* == side by side == */
+.ps2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+     border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+@media(max-width:800px){.ps2{grid-template-columns:1fr}}
+.ps2>div{background:var(--card);padding:22px 24px;border-top:3px solid transparent}
+/* These are section labels, not decisions. Colouring them --stop painted a
+   positive finding in the suppression colour. */
+.ps2 .p2{border-top-color:var(--line2)}
+.ps2 .s2{border-top-color:var(--line2)}
+.ps2 .h{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+        text-transform:uppercase;margin-bottom:12px}
+.ps2 .p2 .h,.ps2 .s2 .h{color:var(--ink3)}
+.ps2 h3{font-size:clamp(17px,2.3vw,21px);line-height:1.25;letter-spacing:-.02em;
+        margin-bottom:11px;max-width:24ch}
+.ps2 p{font-size:14px;color:var(--ink2);margin:0 0 12px;max-width:44ch}
+.ps2 .tagline{display:block;font-size:13px;padding:10px 13px;border-radius:var(--r2);
+              background:var(--card2);color:var(--ink2);margin:0;
+              border-left:3px solid var(--act)}
+.ps2 .chips2{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.ps2 .chips2 button{background:var(--card2);border:1px solid var(--line);border-radius:20px;
+                    cursor:pointer;font:inherit;transition:.15s;text-align:left}
+.ps2 .chips2 button:hover{border-color:var(--accent);color:var(--ink)}
+.ps2 .chips2 span{background:var(--card2);border:1px solid var(--line);border-radius:20px;
+                  padding:5px 11px;font-size:12px;color:var(--ink2)}
+.ps2 .chips2 b{color:var(--ink);font-weight:600}
+/* Both columns end in the same shape, so the eye reads them as a pair. */
+.ps2>div{display:flex;flex-direction:column}
+.ps2 .tagline,.ps2 .chips2{margin-top:auto}
+
+/* ---- the answer bar: the finding, above the fold, priced live ---------- */
+.answerbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+           padding:20px 24px 16px;margin-bottom:16px}
+.answerbar .ab-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
+                 text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.answerbar .ab-l{margin:0 0 6px;font-size:clamp(16px,2.1vw,20px);line-height:1.35;
+                 letter-spacing:-.015em;color:var(--ink);font-weight:500}
+.answerbar .ab-l b{font-weight:700}
+.answerbar .ab-l b.up{color:var(--act)} .answerbar .ab-l b.dn{color:var(--harm)}
+
+/* == masthead == */
+.mh{
+  position:relative;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:17px 22px;margin-bottom:16px;overflow:hidden;
+}
+/* Brand rule, deliberately not semantic. A green/orange split here put orange
+   directly above "real customer data" and crossed over the problem/solution
+   cards below, reading as an X. The five bars already carry the 4-vs-1 meaning,
+   and they sit next to the sentence that explains them. */
+.mh::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--accent)}
+@media(max-width:760px){.mh{grid-template-columns:1fr;gap:14px}}
+
+.mh-left{display:flex;align-items:center;gap:15px;min-width:0}
+.mh-dots{display:flex;gap:5px;flex:none;align-items:flex-end}
+.mh-dots i{width:7px;border-radius:4px;background:var(--good);display:block}
+.mh-dots i:nth-child(1){height:20px}
+.mh-dots i:nth-child(2){height:16px}
+.mh-dots i:nth-child(3){height:13px}
+.mh-dots i:nth-child(4){height:10px}
+.mh-dots i:nth-child(5){height:7px;background:var(--stop)}
+
+.mh-k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.16em;
+      text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.mh-v{font-size:14.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.25}
+.mh-v em{font-style:normal;color:var(--ink3);font-weight:400}
+
+.mh-right{display:flex;align-items:center;gap:12px;flex:none;
+          border-left:1px solid var(--line);padding-left:20px}
+@media(max-width:760px){.mh-right{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:14px}}
+.mh-seal{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;
+         background:var(--act-soft);color:var(--act);font-size:14px;font-weight:700;
+         border:1.5px solid var(--act)}
+.mh-right .mh-k{color:var(--ink3)}
+.mh-src{font-size:12.5px;color:var(--ink3);margin-top:2px}
+.mh-src a{color:var(--ink3);text-decoration:underline;text-underline-offset:2px}
+.mh-src a:hover{color:var(--ink)}
+
+/* == ml reference == */
+.eqrow .eq,.lrn .bd2 .eq{background:var(--card2);border:1px solid var(--line);
+     border-radius:var(--r2);padding:10px 13px;display:block}
+.eqrow{display:grid;grid-template-columns:260px 1fr;gap:18px;padding:14px 0;
+       border-bottom:1px solid var(--line);align-items:start}
+.eqrow:last-child{border-bottom:none}
+@media(max-width:760px){.eqrow{grid-template-columns:1fr;gap:8px}}
+.eqrow .nm{font-size:13.5px;font-weight:600;color:var(--ink)}
+.eqrow .nm small{display:block;font-weight:400;color:var(--ink3);font-size:12px;margin-top:3px}
+.eq{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink);
+    background:var(--card2);border:1px solid var(--line);border-radius:var(--r2);
+    padding:11px 14px;white-space:pre-wrap;line-height:1.7;overflow-x:auto}
+.assume{display:flex;flex-direction:column;gap:12px}
+.assume>div{border-left:3px solid var(--act);padding-left:15px}
+.assume .t{font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.assume .f{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--act);
+           margin-bottom:6px}
+.assume p{margin:0;font-size:13.5px;color:var(--ink2);max-width:none}
+.lrn{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:12px;
+     border-left:3px solid var(--line2)}
+/* Recommended here, not causal at all, or works but ranks behind. */
+.lrn.v-best{border-left-color:var(--act)}
+.lrn.v-best .hd2{background:var(--act-soft)}
+.lrn.v-avoid{border-left-color:var(--harm)}
+.lrn.v-avoid .hd2{background:var(--harm-soft)}
+.lrn.wrongm{border-left-color:var(--harm)}
+.lrn .rank{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;
+           background:var(--card3);color:var(--ink2);font-family:"JetBrains Mono",monospace;
+           font-size:11px;font-weight:600;margin-right:9px;vertical-align:1px}
+.lrn.v-best .rank{background:var(--act);color:var(--card)}
+.lrn.v-avoid .rank{background:var(--harm);color:var(--card)}
+
+/* the evidence, inline, from the same run that ranks tab 1 */
+.lmetrics{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;
+          padding:11px 18px;border-bottom:1px solid var(--line);background:var(--card2)}
+.lmetrics span{font-size:11.5px;color:var(--ink3);display:inline-flex;align-items:baseline;gap:6px}
+.lmetrics b{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--ink);
+            font-weight:600;font-variant-numeric:tabular-nums}
+.lmetrics b.up{color:var(--act)} .lmetrics b.dn{color:var(--harm)}
+.lmetrics .vd{margin-left:auto;font-weight:600;color:var(--ink2)}
+.lrn.v-best .vd{color:var(--act)} .lrn.v-avoid .vd{color:var(--harm)}
+.lrn .hd2{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+          padding:14px 18px;background:var(--card2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lrn .hd2 .t{font-size:15px;font-weight:600;color:var(--ink)}
+.lrn .hd2 .c{font-size:12px;color:var(--ink3);font-style:italic}
+.lrn .bd2{padding:16px 18px}
+.lrn .bd2 p{margin:12px 0 0;font-size:13.5px;color:var(--ink2);max-width:none}
+.novalid{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.novalid span{background:var(--stop-soft);color:var(--stop);border-radius:var(--r2);
+              padding:5px 11px;font-size:12.5px;font-family:"JetBrains Mono",monospace;
+              text-decoration:line-through}
+
+/* == notation == */
+.notation{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:1px;
+          background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.notation>div{background:var(--card);padding:12px 15px;display:grid;
+              grid-template-columns:68px 1fr;gap:12px;align-items:start}
+.notation .sym{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--act);
+               font-weight:500;text-align:center;background:var(--accent-soft);
+               border-radius:var(--r2);padding:6px 4px}
+.notation .mn{font-size:13.5px;color:var(--ink);font-weight:500}
+.notation .ex{font-size:12px;color:var(--ink3);margin-top:3px;line-height:1.45}
+.reads{margin-top:11px;padding:12px 14px;background:var(--accent-soft);border-radius:var(--r2)}
+.reads .k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.12em;
+          text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.reads p{margin:0!important;font-size:13.5px;color:var(--ink)!important}
+
+/* Chart keys. This rule was missing entirely: the swatches rendered at 0px
+   wide and the three labels ran together into one sentence. */
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;
+        font-size:12.5px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;white-space:nowrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;flex:none;
+          margin-right:7px}
+
+/* == opening sequence ==
+   One pass on first paint. Everything is `both`-filled so an element is never
+   left mid-animation, and the whole block is inside prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes nb-drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+  @keyframes nb-pop{0%{opacity:0;transform:scale(.6)}
+                    62%{opacity:1;transform:scale(1.12)}
+                    100%{opacity:1;transform:scale(1)}}
+  @keyframes nb-sweep{from{transform:translateX(-60%) skewX(-12deg)}
+                      to{transform:translateX(220%) skewX(-12deg)}}
+  @keyframes nb-underline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+  body.boot .top{animation:nb-drop .52s cubic-bezier(.16,.8,.3,1) both}
+  body.boot .mark{animation:nb-pop .6s cubic-bezier(.34,1.56,.64,1) .14s both}
+  body.boot .brand b{animation:nb-drop .5s cubic-bezier(.16,.8,.3,1) .2s both}
+  body.boot .brand span{animation:nb-drop .5s cubic-bezier(.16,.8,.3,1) .26s both}
+  body.boot .tab{animation:nb-drop .44s cubic-bezier(.16,.8,.3,1) both}
+  body.boot .tab:nth-of-type(1){animation-delay:.28s}
+  body.boot .tab:nth-of-type(2){animation-delay:.34s}
+  body.boot .tab:nth-of-type(3){animation-delay:.40s}
+  body.boot .tab:nth-of-type(4){animation-delay:.46s}
+  body.boot .tab.on::after{animation:nb-underline .5s cubic-bezier(.16,.8,.3,1) .5s both;
+                           transform-origin:left center}
+
+  /* a single light sweep across the page, once */
+  body.boot::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;
+    background:linear-gradient(90deg,transparent 42%,
+               color-mix(in srgb,var(--ink) 9%,transparent) 50%,transparent 58%);
+    animation:nb-sweep 1s cubic-bezier(.4,0,.2,1) .08s both}
+}
+
+/* == scroll reveal == */
+/* Guarded by prefers-reduced-motion: with motion reduced, nothing ever hides,
+   so the page is fully readable even if the observer never runs. */
+@media (prefers-reduced-motion: no-preference){
+  .rv{opacity:0;transform:translateY(18px);
+      transition:opacity .6s cubic-bezier(.16,.8,.3,1) var(--d,0ms),
+                 transform .6s cubic-bezier(.16,.8,.3,1) var(--d,0ms)}
+  .rv.in{opacity:1;transform:none}
+
+  /* children of a revealed block cascade after it */
+  .rv .groups>*, .rv .ps2>*, .rv .breakeven>*, .rv .exp>*,
+  .rv .vs>*, .rv .kpis>*, .rv .deliv>*, .rv tbody tr{
+    opacity:0;transform:translateY(9px);
+    transition:opacity .45s ease var(--cd,0ms), transform .45s ease var(--cd,0ms)}
+  .rv.in .groups>*, .rv.in .ps2>*, .rv.in .breakeven>*, .rv.in .exp>*,
+  .rv.in .vs>*, .rv.in .kpis>*, .rv.in .deliv>*, .rv.in tbody tr{
+    opacity:1;transform:none}
+
+  /* one sheen across the masthead on first paint, then never again */
+  .mh{position:relative;overflow:hidden}
+  .mh::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(105deg,transparent 35%,
+      color-mix(in srgb,var(--accent) 12%,transparent) 50%,transparent 65%);
+    transform:translateX(-120%);animation:sheen 1.5s .35s ease-out 1}
+  @keyframes sheen{to{transform:translateX(120%)}}
+
+  /* the headline figure lands a beat after its card */
+  .big2,.hero-num .big2{animation:pop .55s .25s cubic-bezier(.16,.9,.3,1) both}
+  @keyframes pop{from{opacity:0;transform:scale(.94) translateY(6px)}to{opacity:1;transform:none}}
+}
+
+/* == attribution == */
+.attrib{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.attrib span{background:var(--card2);border:1px solid var(--line);border-radius:var(--r2);
+             padding:7px 12px;font-size:12.5px;color:var(--ink2)}
+.attrib b{color:var(--ink);font-weight:600}
+
+/* == controls == */
+.ctrls{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:18px}
+@media(max-width:820px){.ctrls{grid-template-columns:1fr}}
+.ctrl2 .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;gap:12px}
+.ctrl2 .lb{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+           text-transform:uppercase;color:var(--ink3)}
+.ctrl2 .val{font-family:"Bricolage Grotesque",sans-serif;font-size:22px;font-weight:700;
+            letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.ctrl2 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;
+  background:var(--card3);border-radius:3px;outline:none}
+.ctrl2 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;
+  border:3px solid var(--card);box-shadow:0 0 0 1px var(--accent)}
+.ctrl2 input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:3px solid var(--card);box-shadow:0 0 0 1px var(--accent)}
+.ctrl2 .ends{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);margin-top:6px}
+.presets2{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.presets2 button{background:var(--card2);border:1px solid var(--line);border-radius:var(--r2);
+  padding:5px 11px;font-size:12px;color:var(--ink2);transition:.14s}
+.presets2 button:hover{border-color:var(--line2);color:var(--ink)}
+.presets2 button.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+.verdictbar{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
+  padding:18px 22px;border-radius:var(--r);border:1px solid;margin-bottom:16px}
+.verdictbar.blanket{background:var(--calm-soft);border-color:var(--calm)}
+.verdictbar.target{background:var(--good-soft);border-color:var(--good)}
+.verdictbar.stop{background:var(--stop-soft);border-color:var(--stop)}
+.verdictbar .big3{font-family:"Bricolage Grotesque",sans-serif;font-size:26px;font-weight:700;
+  letter-spacing:-.03em;line-height:1.1}
+.verdictbar.blanket .big3{color:var(--calm)}
+.verdictbar.target .big3{color:var(--good)}
+.verdictbar.stop .big3{color:var(--stop)}
+.verdictbar p{margin:4px 0 0;font-size:13.5px;color:var(--ink2)}
+.verdictbar .num3{text-align:right;font-family:"JetBrains Mono",monospace;font-size:13px;
+  color:var(--ink2);white-space:nowrap}
+.verdictbar .num3 b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:20px;
+  color:var(--ink);letter-spacing:-.02em}
+@media(max-width:760px){.verdictbar{grid-template-columns:1fr;gap:12px}.verdictbar .num3{text-align:left}}
+
+.dl{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.dl button{background:var(--accent);color:var(--on-accent);border:none;border-radius:var(--r2);
+  padding:9px 16px;font-size:13px;font-weight:600;transition:.14s}
+.dl button:hover{filter:brightness(1.08)}
+.dl button.ghost2{background:var(--card2);color:var(--ink2);border:1px solid var(--line)}
+.dl button.ghost2:hover{color:var(--ink);border-color:var(--line2)}
+.dl .hintx{font-size:12.5px;color:var(--ink3)}
+
+/* == footer == */
+/* Centred and quiet. Sits directly under the content -- the page padding used to
+   leave 90px of blank ground above it. */
+.site-foot{border-top:1px solid var(--line);margin-top:0;padding:22px 26px 26px;text-align:center}
+.foot-in{max-width:760px;margin:0 auto;display:flex;justify-content:center;align-items:center;
+         gap:8px 16px;flex-wrap:wrap}
+.foot-who b{font-size:14px;font-weight:600;color:var(--ink)}
+.foot-who span{font-size:13px;color:var(--ink3);margin-left:8px}
+.foot-links{display:flex;gap:18px;justify-content:center}
+.foot-links a{font-size:13px;color:var(--ink2);text-decoration:none;
+              border-bottom:1px solid transparent;transition:.14s}
+.foot-links a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.foot-legal{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+            font-size:12px;color:var(--ink3);gap:6px 14px}
+@media(max-width:640px){
+  .foot-who span{display:block;margin-left:0;margin-top:2px}
+}
+
+/* == icons == */
+/* Stroke icons inheriting currentColor, so a green pill gets a green icon with
+   no extra rules. Sized in em so they scale with whatever text they sit beside. */
+.ico{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;
+     stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+     vertical-align:-.13em}
+.ico-lg{width:1.25em;height:1.25em}
+.pill .ico{margin-right:1px}
+.pill::before{display:none}          /* the icon replaces the dot */
+.grp .ghead{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.grp .ghead .ico{width:17px;height:17px;stroke-width:2.1}
+.verdictbar .big3 .ico{width:.9em;height:.9em;margin-right:6px}
+.dl button .ico{margin-right:7px}
+.mh-seal .ico{width:15px;height:15px;stroke-width:2.4}
+
+/* == polarity == */
+/* One language everywhere: blue is more/act, red is less/harm, grey is nothing.
+   Never blue-for-profit on one screen and green-for-profit on another. */
+.up,.pos{color:var(--pos)}
+.dn,.neg{color:var(--neg)}
+.zero{color:var(--zero)}
+/* An estimate that is not distinguishable from zero must not be painted as if
+   it were positive. */
+.uncertain{color:var(--zero)!important}
+
+/* == polish == */
+/* Typography: tighter tracking as size increases, which is how display type
+   actually wants to be set. */
+h1{letter-spacing:-.033em} h2{letter-spacing:-.026em} h3{letter-spacing:-.018em}
+.card-h h3,.panel-head h3{letter-spacing:-.012em}
+p,li,dd{text-wrap:pretty}
+h1,h2,h3,h4{text-wrap:balance}
+
+/* Cards catch a hairline of light along the top edge -- barely visible, but it
+   stops large flat panels reading as dead rectangles. */
+.card,.hero,.problem,.answer,.mtab,.tw,.rw,.pcard,.intro,.mblock{position:relative}
+.card::before,.hero::before,.pcard::before,.rw::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:1px;border-radius:var(--r) var(--r) 0 0;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ink) 6%,transparent),transparent);
+  pointer-events:none}
+[data-theme="dark"] .card::before,[data-theme="dark"] .hero::before,
+[data-theme="dark"] .pcard::before,[data-theme="dark"] .rw::before{
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,#fff 8%,transparent),transparent)}
+.mh::before{border-radius:var(--r) var(--r) 0 0}
+
+/* The two opening cards carry a little more presence than the rest. */
+.ps2>div{padding:26px 28px}
+.ps2 h3{font-size:clamp(18px,2.4vw,22px);line-height:1.22}
+.ps2 .h{letter-spacing:.14em}
+.ps2 p{font-size:14.5px;line-height:1.62}
+
+/* Numbers are the point of this app -- give them room and a common alignment. */
+.kpis dd,.vs .v,.breakeven .v,.stats .v,.grp .n,.hero-num .big2,.big2,
+.verdictbar .num3 b{font-feature-settings:"tnum" 1,"ss01" 1}
+
+/* Interaction: quiet, and consistent everywhere something is clickable. */
+.card{transition:border-color .16s,background-color .16s}
+.grp,.mc,.preset,.presets2 button,.foot-links a,.chip{transition:.16s}
+tbody tr.click{transition:background .12s}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:5px}
+
+/* Section rhythm: a consistent vertical beat rather than ad-hoc margins. */
+.stack{gap:18px}
+.head{margin-bottom:22px}
+.head h2{margin-bottom:7px}

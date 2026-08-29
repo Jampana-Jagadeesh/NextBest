@@ -1,0 +1,20 @@
+# Core -- everything the project needs to run.
+numpy>=2.0
+pandas>=2.2
+scikit-learn>=1.5
+scipy>=1.13
+joblib>=1.4
+fastapi>=0.110
+uvicorn>=0.27
+pydantic>=2.6
+
+# Tests.
+pytest>=8.0
+
+# Optional accelerator. The meta-learners fall back to sklearn's
+# HistGradientBoosting when this is absent, so the project runs either way --
+# LightGBM needs a C++ toolchain that is not always present on Windows.
+# lightgbm>=4.5
+
+# Optional, for pulling Kaggle datasets (needs ~/.kaggle/kaggle.json).
+# kaggle>=1.6
