@@ -1,7 +1,8 @@
 /* ==========================================================================
    NextBest - Retail Customer Intelligence
 
-   Theme: WARM. Cream and espresso, copper brand, colour only on the data.
+   Theme: WARM LIGHT / BLACK DARK. Cream #FFF8F0 by day, true black by night,
+   copper brand, colour only on the data.
 
    Anchored on #FFF8F0 and #2C1A0E. The neutrals carry a warm hue rather than
    being flat grey, which is what stops an interface reading as defaulted.
@@ -34,7 +35,7 @@
   --ink:#241B14; --ink2:#615448; --ink3:#7B6D60;
 
   /* ---- brand: identity, navigation, focus. Never a data colour. -------- */
-  --accent:#AD5E29; --accent-soft:#FAECE1; --on-accent:#FFFFFF;
+  --accent:#A35927; --accent-soft:#FAECE1; --on-accent:#FFFFFF;
 
   /* ---- the four decisions: the only hue that carries meaning ----------- */
   --act:#0967DB;     --act-soft:#E3EEFC;     /* contact them       5.31:1 */
@@ -59,18 +60,18 @@
   color-scheme:light;
 }
 [data-theme="dark"]{
-  --bg:#2C1A0E; --card:#3F2715; --card2:#4F341E; --card3:#5F4029;
-  --line:#724C2F; --line2:#8B6141;
-  --ink:#FBF6F1; --ink2:#DACCBE; --ink3:#B5A28F;
+  --bg:#000000; --card:#141414; --card2:#1F1F1F; --card3:#2B2B2B;
+  --line:#383838; --line2:#505050;
+  --ink:#FFFFFF; --ink2:#9D9995; --ink3:#898581;
 
-  --accent:#D37E45; --accent-soft:#4F341E; --on-accent:#2C1A0E;
+  --accent:#D37E45; --accent-soft:#231810; --on-accent:#000000;
 
-  --act:#4294F7;     --act-soft:#122236;     /* 4.83:1 */
-  --caution:#FBAD04; --caution-soft:#33280F; /* 7.72:1 */
-  --dead:#B5A28F;    --dead-soft:#4F341E;    /* 4.94:1 */
-  --harm:#F5607B;    --harm-soft:#361218;    /* 4.60:1 */
-  --on-harm:#2C1A0E;
-  --act-v:#4294F7; --caution-v:#FFAE01; --dead-v:#B5A28F; --harm-v:#F5607B;
+  --act:#1F80F6;     --act-soft:#0E1B2B;     /* 4.66:1 */
+  --caution:#FBAD04; --caution-soft:#2A2109; /* 9.63:1 */
+  --dead:#898581;    --dead-soft:#1F1F1F;    /* 4.55:1 */
+  --harm:#F23557;    --harm-soft:#2E1017;    /* 4.53:1 */
+  --on-harm:#000000;
+  --act-v:#1F80F6; --caution-v:#FFAE01; --dead-v:#898581; --harm-v:#F23557;
 
   --pos:var(--act); --neg:var(--harm); --zero:var(--ink3);
 
@@ -81,7 +82,7 @@
 
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
   --lift:0 18px 48px -20px rgba(0,0,0,.85);
-  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.045'/%3E%3C/svg%3E");
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='.02'/%3E%3C/svg%3E");
   color-scheme:dark;
 }
 
@@ -698,10 +699,24 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
            padding:20px 24px 16px;margin-bottom:16px}
 .answerbar .ab-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.13em;
                  text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
-.answerbar .ab-l{margin:0 0 6px;font-size:clamp(16px,2.1vw,20px);line-height:1.35;
-                 letter-spacing:-.015em;color:var(--ink);font-weight:500}
-.answerbar .ab-l b{font-weight:700}
-.answerbar .ab-l b.up{color:var(--act)} .answerbar .ab-l b.dn{color:var(--harm)}
+.ledger{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+        border-radius:var(--r2);overflow:hidden}
+.ledger>div{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;
+            background:var(--card);padding:13px 18px;align-items:baseline}
+.ledger .lh{background:var(--card2);padding:9px 18px}
+.ledger .lh span{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.11em;
+                 text-transform:uppercase;color:var(--ink3);text-align:right}
+.ledger .lh span:first-child{text-align:left}
+.ledger .lr span{text-align:right;font-size:clamp(17px,2vw,22px);font-weight:700;
+                 letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.ledger .lr span.up{color:var(--act)} .ledger .lr span.dn{color:var(--harm)}
+.ledger .lr .w{text-align:left;font-size:14.5px;font-weight:600;color:var(--ink)}
+.ledger .lr .w em{display:block;font-style:normal;font-size:12px;font-weight:400;
+                  color:var(--ink3);margin-top:3px;font-variant-numeric:tabular-nums}
+@media(max-width:720px){.ledger>div{grid-template-columns:1fr 1fr;gap:8px 12px}
+  .ledger .lh{display:none}}
+.answerbar .ab-note{margin-top:13px;padding-top:11px;border-top:1px solid var(--line);
+                    font-size:12.5px;color:var(--ink3);max-width:80ch}
 
 /* == masthead == */
 .mh{

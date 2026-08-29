@@ -499,18 +499,25 @@ TABS.models = function (v) {
   // The first screen used to show no data at all. Lead with the answer, priced
   // from cost_curve so it can never drift from the model that produced it.
   const cheap = d.cost_curve[0], dear = d.cost_curve[1];
+  // profit = sales * margin - contacts * cost, so sales can be backed out of the
+  // profit the app already reports and the ledger is guaranteed to add up.
+  const salesOf = (profit, n, cost) => (profit + n * cost) / E.margin_rate;
+  const row = (what, n, cost, profit) => `
+    <div class="lr">
+      <span class="w">${what}<em>${int(n)} at ${money(cost)}</em></span>
+      <span>${money0(n * cost)}</span>
+      <span class="up">${money0(salesOf(profit, n, cost))}</span>
+      <span class="${dir(profit)}">${profit > 0 ? '+' : ''}${money0(profit)}</span>
+    </div>`;
   const ab = el('div', 'answerbar');
   ab.innerHTML = `
     <div class="ab-k">The answer</div>
-    <p class="ab-l">At <b>${money(cheap.cost)}</b> an email, contact all
-      <b>${int(d.base.n)}</b> ${cheap.blanket > 0
-        ? `\u2014 it pays <b class="up">${money0(cheap.blanket)}</b>.`
-        : `\u2014 it still loses <b class="dn">${money0(Math.abs(cheap.blanket))}</b>.`}</p>
-    <p class="ab-l">At <b>${money(dear.cost)}</b>, only <b>${int(dear.n_targeted)}</b> are worth it
-      ${dear.targeted > 0
-        ? `\u2014 worth <b class="up">${money0(dear.targeted)}</b>.`
-        : `\u2014 and even that list loses <b class="dn">${money0(Math.abs(dear.targeted))}</b>.`}</p>
-`;
+    <div class="ledger">
+      <div class="lh"><span></span><span>You spend</span><span>They spend back</span><span>Profit</span></div>
+      ${row('Email everyone', d.base.n, cheap.cost, cheap.blanket)}
+      ${row('Best list only', dear.n_targeted, dear.cost, dear.targeted)}
+    </div>
+    <div class="ab-note">They spend back = sales that would not have happened without the contact.</div>`;
 
   const intro = el('div');
   intro.style.marginBottom = '16px';
@@ -598,7 +605,7 @@ TABS.models = function (v) {
     <div>
       <div class="k">A visit is worth</div>
       <div class="v">${money(E.margin_per_visit)}</div>
-      <div class="s">${money(E.rev_per_visit)} revenue × ${(E.margin_rate * 100).toFixed(0)}% margin</div>
+      <div class="s">${money(E.rev_per_incremental_visit)} revenue × ${(E.margin_rate * 100).toFixed(0)}% margin</div>
     </div>
     <div class="key">
       <div class="k">So one contact is worth</div>
