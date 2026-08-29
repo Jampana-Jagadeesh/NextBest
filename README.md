@@ -46,7 +46,7 @@ Measured against the **21,306 customers held back at random**:
 | | |
 |---|---|
 | The campaign caused | **+6.1 points** of extra visits — 10.6% → 16.7% |
-| An incremental visit is worth | **$4.41** — $7.16 revenue × 45% margin |
+| An incremental visit is worth | **$4.41** — $7.16 revenue at **45%** gross margin |
 | **So one contact is worth** | **$0.269** ← the break-even |
 
 That single number decides everything:
