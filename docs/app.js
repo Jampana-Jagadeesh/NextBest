@@ -560,7 +560,6 @@ TABS.models = function (v) {
         <div class="h">The problem</div>
         <h3>${esc(PR.problem_title)}</h3>
         <p>${PR.problem_body}</p>
-        <p class="tagline">${PR.problem_cost}</p>
       </div>
       <div class="s2">
         <div class="h">What this is</div>
@@ -570,8 +569,10 @@ TABS.models = function (v) {
           `<button data-go="${i}"><b>${esc(t)}</b> — ${esc(x)}</button>`).join('')}</div>
       </div>
     </div>`;
-  v.appendChild(ab);
-  v.appendChild(intro);
+  const frame = el('div', 'frame1');
+  frame.appendChild(intro);
+  frame.appendChild(ab);
+  v.appendChild(frame);
 
   // Each chip names a deliverable, so each one lands on the control that
   // produces it. Three of them used to scroll to the same block, which is why

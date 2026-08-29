@@ -841,6 +841,21 @@ td .verd{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;whi
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;flex:none;
           margin-right:7px}
 
+/* One frame holds the problem, what this is, and the answer, so the whole
+   argument lands in a single screen without scrolling. */
+.frame1{border:1px solid var(--line);border-radius:var(--r);background:var(--card);
+        overflow:hidden;margin-bottom:16px}
+.frame1 .ps2{border:none;border-radius:0;margin:0;background:var(--line)}
+.frame1 .ps2>div{padding:18px 22px}
+.frame1 .ps2 h3{font-size:clamp(16px,1.9vw,19px);margin-bottom:9px}
+.frame1 .ps2 p{font-size:13.5px;margin-bottom:10px}
+.frame1 .answerbar{border:none;border-radius:0;margin:0;
+                   border-top:1px solid var(--line);padding:16px 22px 14px}
+.frame1 .ab-q{margin-bottom:12px;padding-bottom:11px}
+.frame1 .ab-q p{font-size:clamp(16px,2vw,20px)}
+.frame1 .ledger>div{padding:10px 16px}
+.frame1 .ab-note{margin-top:10px;padding-top:9px;font-size:12px}
+
 /* A chip names a deliverable; this marks the control that produces it. */
 @keyframes nb-flash{0%,100%{box-shadow:0 0 0 0 transparent}
                     25%,75%{box-shadow:0 0 0 3px var(--accent)}}
