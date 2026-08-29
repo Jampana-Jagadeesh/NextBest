@@ -231,3 +231,16 @@ def test_a_genuinely_profitable_list_is_still_recommended():
     assert RB.verdict_for(20_000, 64_000, targeted=9_000.0, blanket=1_000.0)[0] == "target"
     assert RB.verdict_for(63_000, 64_000, targeted=10_347.0, blanket=10_300.0)[0] == "blanket"
     assert RB.verdict_for(0, 64_000, targeted=0.0, blanket=-100.0)[0] == "stop"
+
+
+def test_the_static_build_uses_relative_asset_paths():
+    """FastAPI serves the assets at /static/, but the published site lives on a
+    subpath (/NextBest/), where an absolute /static/... resolves to the domain
+    root and 404s. That shipped once and took the whole stylesheet and the whole
+    bundle down with it, leaving unstyled HTML."""
+    docs = ROOT / "docs" / "index.html"
+    if not docs.exists():
+        pytest.skip("docs/ not built here; CI builds it before this runs")
+    html = docs.read_text(encoding="utf-8")
+    assert '"/static/' not in html, "absolute /static/ path would 404 on a subpath"
+    assert 'href="styles.css"' in html and 'src="app.js"' in html

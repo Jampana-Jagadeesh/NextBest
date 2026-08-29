@@ -60,6 +60,14 @@ def main() -> None:
     marker = "<script>window.NB_STATIC=1</script>"
     assert marker not in html
     html = html.replace("</head>", f"{marker}\n</head>", 1)
+
+    # FastAPI mounts these at /static/, but here they sit beside index.html and
+    # the site is served from a subpath (/NextBest/), so an absolute /static/...
+    # resolves to the domain root and 404s -- taking the CSS and the JS with it.
+    before = html
+    html = html.replace(chr(34) + "/static/", chr(34)).replace("=/static/", "=")
+    assert html != before, "expected the /static/ asset paths to rewrite"
+    assert "/static/" not in html, "an absolute /static/ path survived"
     (OUT / "index.html").write_text(html, encoding="utf-8")
 
     slim = cust[COLS].copy()
